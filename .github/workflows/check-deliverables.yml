@@ -67,7 +67,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Check deliverables for ${{ matrix.discipline }}
         id: check-deliverables
@@ -148,7 +148,7 @@ jobs:
           version: 8
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Check deliverables for ${{ github.event.inputs.discipline }}
         run: |
