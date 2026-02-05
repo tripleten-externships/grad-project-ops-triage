@@ -60,27 +60,27 @@
     "name": "Alice Johnson",
     "email": "alice.johnson@example.com",
     "role": "requester",
-    "team": null
+    "team": "general"
   },
   {
     "id": "user-002",
     "name": "Bob Williams",
     "email": "bob.williams@enterprise.com",
     "role": "requester",
-    "team": null
+    "team": "general"
   },
   {
     "id": "user-003",
     "name": "Carol Brown",
     "email": "carol.brown@startup.io",
     "role": "requester",
-    "team": null
+    "team": "general"
   },
   {
     "id": "user-004",
     "name": "Daniel Lee",
     "email": "daniel.lee@freelance.net",
     "role": "requester",
-    "team": null
+    "team": "general"
   }
 ]
