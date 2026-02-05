@@ -12,8 +12,8 @@ class ApiClient {
     this.client = axios.create({
       baseURL: import.meta.env.VITE_API_URL || 'http://localhost:4000',
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
 
     // TODO: Add request interceptor for auth tokens
@@ -41,7 +41,10 @@ class ApiClient {
     return response.data;
   }
 
-  async updateRequest(id: string, data: Partial<RequestUpdate>): Promise<Request> {
+  async updateRequest(
+    id: string,
+    data: Partial<RequestUpdate>
+  ): Promise<Request> {
     const response = await this.client.patch(`/api/requests/${id}`, data);
     return response.data;
   }
@@ -53,21 +56,23 @@ class ApiClient {
   // Triage endpoints
   async assignRequest(id: string, agentId: string): Promise<Request> {
     const response = await this.client.post(`/api/triage/${id}/assign`, {
-      agent_id: agentId
+      agent_id: agentId,
     });
     return response.data;
   }
 
   async updatePriority(id: string, priority: string): Promise<Request> {
     const response = await this.client.patch(`/api/triage/${id}/priority`, {
-      priority
+      priority,
     });
     return response.data;
   }
 
   // Analytics endpoints
   async getMetrics(params?: { start_date?: string; end_date?: string }) {
-    const response = await this.client.get('/api/analytics/metrics', { params });
+    const response = await this.client.get('/api/analytics/metrics', {
+      params,
+    });
     return response.data;
   }
 

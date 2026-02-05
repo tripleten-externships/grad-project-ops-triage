@@ -14,13 +14,16 @@ import analyticsRoutes from './routes/analytics.routes';
 
 const app: Application = express();
 const PORT = process.env.PORT || 4000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/grad-project';
+const MONGODB_URI =
+  process.env.MONGODB_URI || 'mongodb://localhost:27017/grad-project';
 
 // Middleware
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -35,7 +38,7 @@ app.get('/health', (req: Request, res: Response) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
-    uptime: process.uptime()
+    uptime: process.uptime(),
   });
 });
 
@@ -49,17 +52,17 @@ app.use('/api/analytics', analyticsRoutes);
 app.use((req: Request, res: Response) => {
   res.status(404).json({
     error: 'Not Found',
-    message: `Route ${req.method} ${req.path} not found`
+    message: `Route ${req.method} ${req.path} not found`,
   });
 });
 
 // Global error handler
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
   console.error('Error:', err);
   res.status(500).json({
     error: 'Internal Server Error',
     message: err.message,
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
   });
 });
 
@@ -77,7 +80,7 @@ async function connectDatabase() {
 // Start server
 async function startServer() {
   await connectDatabase();
-  
+
   app.listen(PORT, () => {
     console.log(`✓ Server running on http://localhost:${PORT}`);
     console.log(`✓ Environment: ${process.env.NODE_ENV || 'development'}`);
@@ -92,7 +95,7 @@ process.on('SIGTERM', async () => {
 });
 
 // Start the server
-startServer().catch(error => {
+startServer().catch((error) => {
   console.error('Failed to start server:', error);
   process.exit(1);
 });

@@ -13,7 +13,7 @@ export function formatDate(isoString: string): string {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   });
 }
 
@@ -32,7 +32,7 @@ export function formatRelativeTime(isoString: string): string {
   if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
   if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
   if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
-  
+
   return formatDate(isoString);
 }
 
@@ -62,20 +62,23 @@ export function truncate(text: string, maxLength: number): string {
  * Calculate SLA time remaining in hours
  * TODO: Implement based on priority and business rules
  */
-export function calculateSlaRemaining(createdAt: string, priority: string): number {
+export function calculateSlaRemaining(
+  createdAt: string,
+  priority: string
+): number {
   // Placeholder implementation
   // Students should implement based on priority-definitions.md
   const slaHours: Record<string, number> = {
     P0: 4,
     P1: 24,
     P2: 72,
-    P3: 168
+    P3: 168,
   };
-  
+
   const created = new Date(createdAt);
   const now = new Date();
   const elapsedHours = (now.getTime() - created.getTime()) / (1000 * 60 * 60);
   const targetHours = slaHours[priority] || 168;
-  
+
   return Math.max(0, targetHours - elapsedHours);
 }

@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
-import type { Request } from '@shared/types';
 
 /**
  * US-03: Manager Dashboard / Insights
  * Displays analytics and metrics about support requests
  */
 function InsightsPage() {
-  const [metrics, setMetrics] = useState({
+  const [metrics, _setMetrics] = useState({
     totalRequests: 0,
     byStatus: {} as Record<string, number>,
     byPriority: {} as Record<string, number>,
     byCategory: {} as Record<string, number>,
     avgResolutionTime: 0,
-    slaCompliance: 0
+    slaCompliance: 0,
   });
 
   useEffect(() => {
     // TODO: Fetch analytics data from API
     // TODO: Calculate metrics from request data
-    
+
     console.log('Loading analytics...');
   }, []);
 
@@ -31,7 +30,7 @@ function InsightsPage() {
   return (
     <div className="insights-page">
       <h2>Analytics Dashboard</h2>
-      
+
       <div className="metrics-grid">
         <div className="metric-card">
           <h3>Total Requests</h3>

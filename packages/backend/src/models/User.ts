@@ -14,40 +14,43 @@ export interface UserDocument extends Document {
   updated_at?: string;
 }
 
-const UserSchema = new Schema<UserDocument>({
-  id: {
-    type: String,
-    required: true,
-    unique: true
+const UserSchema = new Schema<UserDocument>(
+  {
+    id: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      required: true,
+      enum: ['admin', 'agent', 'customer'],
+      default: 'customer',
+    },
+    created_at: {
+      type: String,
+      required: true,
+    },
+    updated_at: {
+      type: String,
+    },
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    trim: true
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  role: {
-    type: String,
-    required: true,
-    enum: ['admin', 'agent', 'customer'],
-    default: 'customer'
-  },
-  created_at: {
-    type: String,
-    required: true
-  },
-  updated_at: {
-    type: String
+  {
+    timestamps: false,
+    versionKey: false,
   }
-}, {
-  timestamps: false,
-  versionKey: false
-});
+);
 
 // Indexes
 UserSchema.index({ email: 1 });

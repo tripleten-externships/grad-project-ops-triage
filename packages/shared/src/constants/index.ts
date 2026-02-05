@@ -10,7 +10,7 @@ export const STATUS_VALUES = [
   'in_progress',
   'waiting',
   'resolved',
-  'closed'
+  'closed',
 ] as const;
 
 // Priority values (P0 = Critical, P1 = High, P2 = Medium, P3 = Low)
@@ -21,7 +21,7 @@ export const CATEGORY_VALUES = [
   'technical',
   'account',
   'billing',
-  'general'
+  'general',
 ] as const;
 
 // Requester type values
@@ -29,7 +29,7 @@ export const REQUESTER_TYPE_VALUES = [
   'free',
   'paid',
   'enterprise',
-  'internal'
+  'internal',
 ] as const;
 
 // Channel values
@@ -38,7 +38,7 @@ export const CHANNEL_VALUES = [
   'chat',
   'phone',
   'web_form',
-  'api'
+  'api',
 ] as const;
 
 // Resolution code values
@@ -47,7 +47,7 @@ export const RESOLUTION_CODE_VALUES = [
   'workaround',
   'duplicate',
   'wont_fix',
-  'spam'
+  'spam',
 ] as const;
 
 // Human-readable labels
@@ -55,7 +55,7 @@ export const PRIORITY_LABELS: Record<string, string> = {
   P0: 'Critical',
   P1: 'High',
   P2: 'Medium',
-  P3: 'Low'
+  P3: 'Low',
 };
 
 export const STATUS_LABELS: Record<string, string> = {
@@ -64,12 +64,12 @@ export const STATUS_LABELS: Record<string, string> = {
   in_progress: 'In Progress',
   waiting: 'Waiting',
   resolved: 'Resolved',
-  closed: 'Closed'
+  closed: 'Closed',
 };
 
 export const CATEGORY_LABELS: Record<string, string> = {
   technical: 'Technical',
   account: 'Account',
   billing: 'Billing',
-  general: 'General'
+  general: 'General',
 };

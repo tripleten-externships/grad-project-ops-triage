@@ -2,7 +2,7 @@
 
 /**
  * seed-all-data.js - Seed data distribution script
- * 
+ *
  * This script:
  * - Reads mock data from contracts/mock-data/
  * - Displays summary of data being seeded
@@ -63,74 +63,101 @@ function writeJSON(filePath, data) {
  * Main seeding function
  */
 function main() {
-  console.log(`${colors.blue}========================================${colors.reset}`);
+  console.log(
+    `${colors.blue}========================================${colors.reset}`
+  );
   console.log(`${colors.blue}  Data Seeding Distribution${colors.reset}`);
-  console.log(`${colors.blue}========================================${colors.reset}`);
+  console.log(
+    `${colors.blue}========================================${colors.reset}`
+  );
   console.log('');
-  
+
   // Read mock data
-  const requestsPath = path.join(__dirname, '../contracts/mock-data/requests.json');
+  const requestsPath = path.join(
+    __dirname,
+    '../contracts/mock-data/requests.json'
+  );
   const usersPath = path.join(__dirname, '../contracts/mock-data/users.json');
-  
+
   const requests = readJSON(requestsPath);
   const users = readJSON(usersPath);
-  
+
   if (!requests || !users) {
     error('Failed to read mock data files');
     process.exit(1);
   }
-  
+
   // Display summary
   section('📊 Data Summary');
   console.log('');
   console.log(`  Requests: ${requests.length} records`);
   console.log(`  Users:    ${users.length} records`);
   console.log('');
-  
+
   // Analyze requests
   const statusCounts = {};
   const priorityCounts = {};
   const categoryCounts = {};
-  
-  requests.forEach(req => {
+
+  requests.forEach((req) => {
     statusCounts[req.status] = (statusCounts[req.status] || 0) + 1;
     priorityCounts[req.priority] = (priorityCounts[req.priority] || 0) + 1;
     categoryCounts[req.category] = (categoryCounts[req.category] || 0) + 1;
   });
-  
+
   console.log('  Request Breakdown:');
-  console.log(`    By Status:   ${Object.entries(statusCounts).map(([k, v]) => `${k}(${v})`).join(', ')}`);
-  console.log(`    By Priority: ${Object.entries(priorityCounts).map(([k, v]) => `${k}(${v})`).join(', ')}`);
-  console.log(`    By Category: ${Object.entries(categoryCounts).map(([k, v]) => `${k}(${v})`).join(', ')}`);
+  console.log(
+    `    By Status:   ${Object.entries(statusCounts)
+      .map(([k, v]) => `${k}(${v})`)
+      .join(', ')}`
+  );
+  console.log(
+    `    By Priority: ${Object.entries(priorityCounts)
+      .map(([k, v]) => `${k}(${v})`)
+      .join(', ')}`
+  );
+  console.log(
+    `    By Category: ${Object.entries(categoryCounts)
+      .map(([k, v]) => `${k}(${v})`)
+      .join(', ')}`
+  );
   console.log('');
-  
+
   // Analyze users
   const roleCounts = {};
-  users.forEach(user => {
+  users.forEach((user) => {
     roleCounts[user.role] = (roleCounts[user.role] || 0) + 1;
   });
-  
+
   console.log('  User Breakdown:');
-  console.log(`    By Role: ${Object.entries(roleCounts).map(([k, v]) => `${k}(${v})`).join(', ')}`);
+  console.log(
+    `    By Role: ${Object.entries(roleCounts)
+      .map(([k, v]) => `${k}(${v})`)
+      .join(', ')}`
+  );
   console.log('');
-  
+
   // Create QA fixtures
   section('🧪 Creating QA Test Fixtures');
   console.log('');
-  
+
   const fixturesDir = path.join(__dirname, '../packages/qa/e2e-tests/fixtures');
-  
+
   // Create fixtures for different test scenarios
   const fixtures = {
     'requests-all.json': requests,
     'users-all.json': users,
-    'requests-pending.json': requests.filter(r => r.status === 'pending'),
-    'requests-in-progress.json': requests.filter(r => r.status === 'in-progress'),
-    'requests-high-priority.json': requests.filter(r => r.priority === 'high'),
-    'users-agents.json': users.filter(u => u.role === 'agent'),
-    'users-customers.json': users.filter(u => u.role === 'customer'),
+    'requests-pending.json': requests.filter((r) => r.status === 'pending'),
+    'requests-in-progress.json': requests.filter(
+      (r) => r.status === 'in-progress'
+    ),
+    'requests-high-priority.json': requests.filter(
+      (r) => r.priority === 'high'
+    ),
+    'users-agents.json': users.filter((u) => u.role === 'agent'),
+    'users-customers.json': users.filter((u) => u.role === 'customer'),
   };
-  
+
   let fixturesCreated = 0;
   Object.entries(fixtures).forEach(([filename, data]) => {
     const fixturePath = path.join(fixturesDir, filename);
@@ -139,11 +166,13 @@ function main() {
       fixturesCreated++;
     }
   });
-  
+
   console.log('');
-  success(`Created ${fixturesCreated} fixture files in packages/qa/e2e-tests/fixtures/`);
+  success(
+    `Created ${fixturesCreated} fixture files in packages/qa/e2e-tests/fixtures/`
+  );
   console.log('');
-  
+
   // Instructions for Backend team
   section('🔧 Backend Team - MongoDB Seeding');
   console.log('');
@@ -162,7 +191,7 @@ function main() {
   console.log('    - Insert users and requests from contracts/mock-data/');
   console.log('    - Create indexes');
   console.log('');
-  
+
   // Instructions for BIA team
   section('📊 BIA Team - Data Loading');
   console.log('');
@@ -179,7 +208,7 @@ function main() {
   console.log('    - Generate sample SQL INSERT statements');
   console.log('    - Provide import instructions for your chosen BI tool');
   console.log('');
-  
+
   // Instructions for Data Science team
   section('🔬 Data Science Team - Notebook Data');
   console.log('');
@@ -202,7 +231,7 @@ function main() {
   console.log('');
   console.log('  See notebooks/01-eda.ipynb for examples');
   console.log('');
-  
+
   // Instructions for Frontend team
   section('💻 Frontend Team - Mock API Data');
   console.log('');
@@ -217,7 +246,7 @@ function main() {
   console.log('    - Update VITE_API_URL in .env');
   console.log('    - Use src/services/api.ts instead of mock-api.ts');
   console.log('');
-  
+
   // Instructions for QA team
   section('🧪 QA Team - Test Fixtures');
   console.log('');
@@ -231,15 +260,19 @@ function main() {
   console.log('    import users from "../fixtures/users-agents.json";');
   console.log('');
   console.log('  Available fixtures:');
-  Object.keys(fixtures).forEach(filename => {
+  Object.keys(fixtures).forEach((filename) => {
     console.log(`    - ${filename}`);
   });
   console.log('');
-  
+
   // Summary
-  console.log(`${colors.blue}========================================${colors.reset}`);
+  console.log(
+    `${colors.blue}========================================${colors.reset}`
+  );
   console.log(`${colors.green}  Seeding Complete! ✓${colors.reset}`);
-  console.log(`${colors.blue}========================================${colors.reset}`);
+  console.log(
+    `${colors.blue}========================================${colors.reset}`
+  );
   console.log('');
   success('Mock data is ready for all disciplines');
   console.log('');

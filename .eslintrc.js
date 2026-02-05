@@ -32,6 +32,19 @@ module.exports = {
     ],
     'no-console': ['warn', { allow: ['warn', 'error'] }],
   },
+  overrides: [
+    {
+      files: [
+        'scripts/**/*.js',
+        'contracts/mock-data/**/*.js',
+        'packages/bia/data/**/*.js',
+      ],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+        'no-console': 'off',
+      },
+    },
+  ],
   ignorePatterns: [
     'node_modules/',
     'dist/',

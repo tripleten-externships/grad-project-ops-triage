@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { RequestCreate } from '@shared/types';
-import { CATEGORY_VALUES, CHANNEL_VALUES, REQUESTER_TYPE_VALUES } from '@shared/constants';
+import { CATEGORY_VALUES, REQUESTER_TYPE_VALUES } from '@shared/constants';
 
 /**
  * US-01: Request Submission Form
  * Allows users to submit new support requests
  */
 function IntakePage() {
-  const navigate = useNavigate();
+  const _navigate = useNavigate();
   const [formData, setFormData] = useState<Partial<RequestCreate>>({
     title: '',
     description: '',
@@ -17,32 +17,36 @@ function IntakePage() {
     status: 'new',
     requester_type: 'free',
     channel: 'web_form',
-    tags: []
+    tags: [],
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // TODO: Validate form data
     // TODO: Call API to create request
     // TODO: Handle errors
     // TODO: Show success message
     // TODO: Navigate to request detail or triage page
-    
+
     console.log('Submitting request:', formData);
     alert('TODO: Implement request submission');
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
     <div className="intake-page">
       <h2>Submit Support Request</h2>
       <p>Please provide details about your support request.</p>
-      
+
       <form onSubmit={handleSubmit} className="intake-form">
         <div className="form-group">
           <label htmlFor="title">Title *</label>
@@ -83,7 +87,7 @@ function IntakePage() {
             onChange={handleChange}
             required
           >
-            {CATEGORY_VALUES.map(cat => (
+            {CATEGORY_VALUES.map((cat) => (
               <option key={cat} value={cat}>
                 {cat.charAt(0).toUpperCase() + cat.slice(1)}
               </option>
@@ -100,7 +104,7 @@ function IntakePage() {
             onChange={handleChange}
             required
           >
-            {REQUESTER_TYPE_VALUES.map(type => (
+            {REQUESTER_TYPE_VALUES.map((type) => (
               <option key={type} value={type}>
                 {type.charAt(0).toUpperCase() + type.slice(1)}
               </option>

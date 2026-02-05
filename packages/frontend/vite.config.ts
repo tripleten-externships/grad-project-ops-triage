@@ -8,16 +8,16 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@shared': path.resolve(__dirname, '../shared/src')
-    }
+      '@shared': path.resolve(__dirname, '../shared/src'),
+    },
   },
   server: {
     port: 3000,
     proxy: {
       '/api': {
         target: process.env.VITE_API_URL || 'http://localhost:4000',
-        changeOrigin: true
-      }
-    }
-  }
+        changeOrigin: true,
+      },
+    },
+  },
 });

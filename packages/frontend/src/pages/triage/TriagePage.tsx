@@ -56,7 +56,7 @@ function TriagePage() {
               </tr>
             </thead>
             <tbody>
-              {requests.map(request => (
+              {requests.map((request) => (
                 <tr key={request.id}>
                   <td>
                     <Link to={`/request/${request.id}`}>{request.id}</Link>

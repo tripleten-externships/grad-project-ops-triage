@@ -12,7 +12,7 @@ export type {
   Status,
   RequesterType,
   Channel,
-  ResolutionCode
+  ResolutionCode,
 } from '@shared/types';
 
 // UI-specific types

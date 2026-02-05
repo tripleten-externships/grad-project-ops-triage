@@ -8,10 +8,19 @@ import { z } from 'zod';
 // Zod schemas based on contract definitions
 const CategorySchema = z.enum(['technical', 'account', 'billing', 'general']);
 const PrioritySchema = z.enum(['P0', 'P1', 'P2', 'P3']);
-const StatusSchema = z.enum(['new', 'triaged', 'in_progress', 'waiting', 'resolved', 'closed']);
+const StatusSchema = z.enum([
+  'new',
+  'triaged',
+  'in_progress',
+  'waiting',
+  'resolved',
+  'closed',
+]);
 const RequesterTypeSchema = z.enum(['free', 'paid', 'enterprise', 'internal']);
 const ChannelSchema = z.enum(['email', 'chat', 'phone', 'web_form', 'api']);
-const ResolutionCodeSchema = z.enum(['solved', 'workaround', 'duplicate', 'wont_fix', 'spam']).nullable();
+const ResolutionCodeSchema = z
+  .enum(['solved', 'workaround', 'duplicate', 'wont_fix', 'spam'])
+  .nullable();
 
 export const RequestSchema = z.object({
   id: z.string().regex(/^REQ-\d{6}$/),
@@ -26,16 +35,18 @@ export const RequestSchema = z.object({
   updated_at: z.string().datetime().optional(),
   assigned_to: z.string().nullable().optional(),
   resolution_code: ResolutionCodeSchema.optional(),
-  tags: z.array(z.string()).optional()
+  tags: z.array(z.string()).optional(),
 });
 
 export const RequestCreateSchema = RequestSchema.omit({
   id: true,
   created_at: true,
-  updated_at: true
+  updated_at: true,
 });
 
-export const RequestUpdateSchema = RequestSchema.partial().required({ id: true });
+export const RequestUpdateSchema = RequestSchema.partial().required({
+  id: true,
+});
 
 // Validation functions
 export function validateRequest(data: unknown) {

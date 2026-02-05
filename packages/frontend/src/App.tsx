@@ -11,9 +11,15 @@ function App() {
         <nav className="navbar">
           <h1>Support Request System</h1>
           <ul>
-            <li><Link to="/">Submit Request</Link></li>
-            <li><Link to="/triage">Triage Queue</Link></li>
-            <li><Link to="/insights">Insights</Link></li>
+            <li>
+              <Link to="/">Submit Request</Link>
+            </li>
+            <li>
+              <Link to="/triage">Triage Queue</Link>
+            </li>
+            <li>
+              <Link to="/insights">Insights</Link>
+            </li>
           </ul>
         </nav>
 

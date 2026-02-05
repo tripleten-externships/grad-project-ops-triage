@@ -13,7 +13,7 @@ export type {
   Status,
   RequesterType,
   Channel,
-  ResolutionCode
+  ResolutionCode,
 } from '../../../../contracts/schemas/request.schema';
 
 // TODO: Add User types when user.schema.ts is available

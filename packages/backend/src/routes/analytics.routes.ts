@@ -10,18 +10,18 @@ const router = Router();
 // GET /api/analytics/metrics - Get dashboard metrics
 router.get('/metrics', async (req: Request, res: Response) => {
   const { start_date, end_date } = req.query;
-  
+
   // TODO: Calculate metrics from database:
   // - Total requests (by status, priority, category)
   // - Average resolution time
   // - SLA compliance rate
   // - Requests by time period
   // - Agent performance metrics
-  
+
   res.status(501).json({
     error: 'Not implemented',
     message: 'TODO: Calculate and return analytics metrics',
-    filters: { start_date, end_date }
+    filters: { start_date, end_date },
   });
 });
 
@@ -31,7 +31,7 @@ router.get('/trends', async (req: Request, res: Response) => {
   // - Requests per day/week/month
   // - Resolution time trends
   // - Category distribution over time
-  
+
   res.status(501).json({ error: 'Not implemented' });
 });
 
@@ -41,7 +41,7 @@ router.get('/agents', async (req: Request, res: Response) => {
   // - Requests handled
   // - Average resolution time
   // - Customer satisfaction (if available)
-  
+
   res.status(501).json({ error: 'Not implemented' });
 });
 
@@ -51,7 +51,7 @@ router.get('/sla', async (req: Request, res: Response) => {
   // - % of requests meeting SLA by priority
   // - Average time to first response
   // - Average time to resolution
-  
+
   res.status(501).json({ error: 'Not implemented' });
 });
 

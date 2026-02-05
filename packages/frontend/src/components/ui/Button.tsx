@@ -10,17 +10,19 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  * Reusable Button Component
  * TODO: Expand with more variants and styles
  */
-function Button({ 
-  variant = 'primary', 
-  size = 'medium', 
-  children, 
+function Button({
+  variant = 'primary',
+  size = 'medium',
+  children,
   className = '',
-  ...props 
+  ...props
 }: ButtonProps) {
   const baseClass = 'btn';
   const variantClass = `btn-${variant}`;
   const sizeClass = `btn-${size}`;
-  const classes = [baseClass, variantClass, sizeClass, className].filter(Boolean).join(' ');
+  const classes = [baseClass, variantClass, sizeClass, className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <button className={classes} {...props}>

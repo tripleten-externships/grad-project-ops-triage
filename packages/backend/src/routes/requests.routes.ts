@@ -14,7 +14,8 @@ const router = Router();
 router.get('/', requestController.getRequests);
 
 // POST /api/requests - Create new request
-router.post('/', 
+router.post(
+  '/',
   // validateRequest('create'), // TODO: Implement validation middleware
   requestController.createRequest
 );
@@ -23,7 +24,8 @@ router.post('/',
 router.get('/:id', requestController.getRequestById);
 
 // PATCH /api/requests/:id - Update request
-router.patch('/:id',
+router.patch(
+  '/:id',
   // validateRequest('update'), // TODO: Implement validation middleware
   requestController.updateRequest
 );

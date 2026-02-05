@@ -20,35 +20,38 @@ export class LLMClient {
   private provider: string;
   private openai?: OpenAI;
   private anthropic?: Anthropic;
-  
+
   constructor() {
     this.provider = process.env.LLM_PROVIDER || 'openai';
-    
+
     if (this.provider === 'openai') {
       this.openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY
+        apiKey: process.env.OPENAI_API_KEY,
       });
     } else if (this.provider === 'anthropic') {
       this.anthropic = new Anthropic({
-        apiKey: process.env.ANTHROPIC_API_KEY
+        apiKey: process.env.ANTHROPIC_API_KEY,
       });
     }
   }
-  
+
   /**
    * Categorize and prioritize a request
    */
-  async categorizeRequest(title: string, description: string): Promise<LLMPrediction> {
+  async categorizeRequest(
+    title: string,
+    description: string
+  ): Promise<LLMPrediction> {
     const promptTemplate = this.loadPrompt('categorize-request.txt');
     const prompt = promptTemplate
       .replace('{title}', title)
       .replace('{description}', description);
-    
+
     const response = await this.callLLM(prompt, {
       maxTokens: 200,
-      temperature: 0.3
+      temperature: 0.3,
     });
-    
+
     // Parse JSON response
     try {
       const parsed = JSON.parse(response);
@@ -57,13 +60,13 @@ export class LLMClient {
         category_confidence: parsed.category_confidence,
         priority: parsed.priority,
         priority_confidence: parsed.priority_confidence,
-        reasoning: parsed.reasoning
+        reasoning: parsed.reasoning,
       };
     } catch (error) {
       throw new Error(`Failed to parse LLM response: ${error.message}`);
     }
   }
-  
+
   /**
    * Summarize a request
    */
@@ -72,15 +75,15 @@ export class LLMClient {
     const prompt = promptTemplate
       .replace('{title}', title)
       .replace('{description}', description);
-    
+
     const summary = await this.callLLM(prompt, {
       maxTokens: 100,
-      temperature: 0.5
+      temperature: 0.5,
     });
-    
+
     return summary.trim();
   }
-  
+
   /**
    * Call LLM API (provider-agnostic)
    */
@@ -96,7 +99,7 @@ export class LLMClient {
       throw new Error(`Unsupported LLM provider: ${this.provider}`);
     }
   }
-  
+
   /**
    * Call OpenAI API
    */
@@ -107,21 +110,19 @@ export class LLMClient {
     if (!this.openai) {
       throw new Error('OpenAI client not initialized');
     }
-    
+
     const model = process.env.OPENAI_MODEL || 'gpt-3.5-turbo';
-    
+
     const completion = await this.openai.chat.completions.create({
       model,
-      messages: [
-        { role: 'user', content: prompt }
-      ],
+      messages: [{ role: 'user', content: prompt }],
       max_tokens: options.maxTokens,
-      temperature: options.temperature
+      temperature: options.temperature,
     });
-    
+
     return completion.choices[0]?.message?.content || '';
   }
-  
+
   /**
    * Call Anthropic API
    */
@@ -132,22 +133,20 @@ export class LLMClient {
     if (!this.anthropic) {
       throw new Error('Anthropic client not initialized');
     }
-    
+
     const model = process.env.ANTHROPIC_MODEL || 'claude-3-sonnet-20240229';
-    
+
     const message = await this.anthropic.messages.create({
       model,
       max_tokens: options.maxTokens,
       temperature: options.temperature,
-      messages: [
-        { role: 'user', content: prompt }
-      ]
+      messages: [{ role: 'user', content: prompt }],
     });
-    
+
     const content = message.content[0];
     return content.type === 'text' ? content.text : '';
   }
-  
+
   /**
    * Load prompt template from file
    */
