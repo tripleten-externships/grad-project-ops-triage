@@ -250,10 +250,10 @@ See `docs/BUG-TEMPLATE.md`
 
 ## Test Schedule
 
-### Sprint Cycle (2 weeks)
-- **Week 1**: Dev writes code + unit tests
-- **Week 2**: QA writes test cases, executes, logs bugs
-- **Week 2 (End)**: Bug fixes, regression, sign-off
+### 1-Week Bootcamp Cycle
+- **Days 1-3**: Dev writes code + unit tests in parallel with features
+- **Days 4-5**: QA writes test cases, executes, logs bugs
+- **Days 6-7**: Bug fixes, regression, sign-off
 
 ### Continuous
 - Unit tests: On every commit

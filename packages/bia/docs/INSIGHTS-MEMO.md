@@ -36,7 +36,7 @@
 **Key Observations**:
 - <!-- e.g., Peak volume on Mondays (avg 45 requests) -->
 - <!-- e.g., 20% increase in requests after product launch -->
-- <!-- e.g., Steady growth trend over past 3 months -->
+- <!-- e.g., Steady growth trend during bootcamp period -->
 
 ### Category Breakdown
 
@@ -120,7 +120,7 @@
 ### Temporal Patterns
 
 **Peak Hours**: <!-- e.g., 9-11 AM (35% of daily volume) -->  
-**Peak Days**: <!-- e.g., Monday, Tuesday (60% of weekly volume) -->  
+**Peak Days**: <!-- e.g., Monday, Tuesday (60% of total volume) -->
 **Seasonal Trends**: <!-- e.g., Volume 30% higher during Q1 (fiscal year end) -->
 
 ### Emerging Issues
@@ -128,8 +128,8 @@
 <!-- TODO: Identify unusual patterns or concerning trends -->
 
 1. **<!-- e.g., Password Reset Spike -->**
-   - **Observation**: Password reset requests increased 40% in past 2 weeks
-   - **Potential Cause**: Recent password policy change requiring monthly resets
+   - **Observation**: Password reset requests increased 40% recently
+   - **Potential Cause**: Recent password policy change
    - **Impact**: Overwhelming IT support team
    - **Recommendation**: Implement self-service password reset tool
 
@@ -187,44 +187,44 @@
 
 ## 7. Recommendations
 
-### Immediate Actions (This Week)
+### Immediate Actions (Within 1-2 Days)
 
 1. **<!-- e.g., Address IT Support SLA Compliance -->**
    - Action: Assign overflow requests to cross-trained HR agents
    - Owner: IT Manager
-   - Timeline: This week
+   - Timeline: Within 1 day
 
 2. **<!-- e.g., Clear Unassigned Backlog -->**
    - Action: Triage all pending requests
    - Owner: Team Lead
-   - Timeline: Within 2 days
+   - Timeline: Same day
 
-### Short-Term (This Month)
+### Short-Term (Within the Week)
 
 1. **<!-- e.g., Implement Password Self-Service -->**
    - Action: Deploy self-service password reset tool
    - Owner: Software Engineering team
-   - Timeline: 2 weeks
+   - Timeline: 3-4 days
    - Expected Impact: Reduce IT requests by 30%
 
 2. **<!-- e.g., Hire Additional Agent -->**
    - Action: Open req for IT Support Specialist
    - Owner: HR
-   - Timeline: 30 days to hire
+   - Timeline: Immediate action
    - Expected Impact: Improve SLA compliance to 95%
 
-### Long-Term (This Quarter)
+### Future Iterations (Post-Bootcamp)
 
 1. **<!-- e.g., Category Automation Strategy -->**
    - Action: Identify top 5 automatable request types
    - Owner: BIA + AI Automation teams
-   - Timeline: Q2 2026
+   - Timeline: Future iteration
    - Expected Impact: 40% volume reduction
 
 2. **<!-- e.g., Agent Training Program -->**
    - Action: Develop cross-training curriculum
    - Owner: Team Lead
-   - Timeline: Q2 2026
+   - Timeline: Future iteration
    - Expected Impact: Better workload balancing
 
 ---
@@ -233,10 +233,10 @@
 
 | Metric | Current | Target | Timeframe |
 |--------|---------|--------|-----------|
-| Overall SLA Compliance | <!-- 88% --> | 95% | End of month |
-| Avg Resolution Time | <!-- 24.5 hrs --> | 20 hrs | End of quarter |
-| Unassigned Request Rate | <!-- 12% --> | <5% | This week |
-| Request Volume Growth | <!-- +15%/mo --> | Stabilize | Q2 |
+| Overall SLA Compliance | <!-- 88% --> | 95% | End of bootcamp |
+| Avg Resolution Time | <!-- 24.5 hrs --> | 20 hrs | End of bootcamp |
+| Unassigned Request Rate | <!-- 12% --> | <5% | Within 2 days |
+| Request Volume Growth | <!-- +15%/mo --> | Stabilize | Future iteration |
 
 ---
 

@@ -21,9 +21,11 @@ Graduate students or teams studying:
 
 ### How long should this project take?
 
-Typically **8-12 weeks** depending on team size and depth of implementation. Each discipline should budget:
-- **40-60 hours** for required deliverables
-- **+10-20 hours** for stretch goals
+This is a **1-week intensive bootcamp project** (~7 days). Each discipline should budget:
+- **8-12 hours** for required deliverables
+- **+2-4 hours** for stretch goals (if time permits)
+
+The fast-paced nature requires focused collaboration and rapid iteration.
 
 ### Do we need all 8 disciplines on our team?
 
@@ -78,10 +80,10 @@ You have several options:
 - Each person implements one user story end-to-end
 - Requires all disciplines per person
 
-**Strategy 3: By sprint**
-- Sprint 1: Research & design (UX, Security, Planning)
-- Sprint 2: Core build (SE, DS)
-- Sprint 3: Integration & quality (AI, BIA, QA)
+**Strategy 3: By day**
+- Days 1-2: Research, planning & setup (UX, Security, Planning)
+- Days 3-5: Core build & integration (SE, DS, AI)
+- Days 6-7: Testing, polish & final deliverables (BIA, QA)
 
 Choose what works for your team!
 
@@ -218,12 +220,11 @@ See [`INTEGRATION.md`](./INTEGRATION.md) for detailed patterns.
 
 ### When should we integrate?
 
-**Recommended timeline**:
-- **Week 2-3**: First integration test (basic API + Frontend)
-- **Week 4-5**: Add Data Science model
-- **Week 6-7**: Add AI Automation webhooks
-- **Week 8**: Full system integration testing
-- **Week 9-10**: Bug fixes and polish
+**Recommended timeline for 1-week bootcamp**:
+- **Day 1-2**: First integration test (basic API + Frontend)
+- **Day 3-4**: Add Data Science model and AI Automation
+- **Day 5-6**: Full system integration testing
+- **Day 7**: Final bug fixes and polish
 
 **Integration checkpoints**:
 - Can frontend call backend API?
@@ -553,44 +554,44 @@ All are acceptable!
 
 ## ⏱️ Timeline & Planning
 
-### What's a realistic week-by-week plan?
+### What's a realistic day-by-day plan?
 
-**Sample 10-week timeline**:
+**Sample 1-week intensive timeline**:
 
-| Week | Focus | Deliverables |
-|------|-------|--------------|
-| 1 | Kickoff, setup, planning | Environment set up, team roles assigned |
-| 2 | UX research, backend setup | Personas, user flows, basic API |
-| 3 | Frontend scaffolding, DS EDA | Basic UI, data exploration |
-| 4 | Core features | Submit request E2E working |
-| 5 | ML model training | Model trained and served |
-| 6 | Triage features | Agent queue, status updates |
-| 7 | Analytics, AI automation | Dashboard created, prompts working |
-| 8 | Security, integration testing | Threat model, E2E tests |
-| 9 | Bug fixes, polish | All features integrated |
-| 10 | Documentation, submission | Final review, submission |
+| Day | Focus | Deliverables |
+|-----|-------|--------------|
+| 1 | Kickoff, setup, planning | Environment set up, team roles assigned, contracts reviewed |
+| 2 | UX + Backend foundation | Basic wireframes, user flows, core API endpoints |
+| 3 | Frontend + Data Science | Submit form UI, DS model training started |
+| 4 | Integration + AI automation | E2E flow working, model served, AI prompts integrated |
+| 5 | Triage + Analytics | Agent queue, dashboard, security review |
+| 6 | Testing + polish | E2E tests, bug fixes, documentation |
+| 7 | Final integration + submission | All features integrated, final review, submission |
 
-**Adjust** based on team size and scope.
+**This is an intensive bootcamp** — expect long days and rapid iteration!
 
 ### We're behind schedule. What should we cut?
 
-**Keep** (critical):
+**Keep** (critical for 1-week bootcamp):
 - Basic submit request form → backend → database
 - Basic triage queue
 - Core documentation
+- Manual testing
 
-**Cut first** (nice-to-have):
+**Cut first** (nice-to-have in 1 week):
 - Advanced UI polish
 - Stretch goals
-- Third user story (manager dashboard)
-- AI automation
-- Advanced analytics
+- Third user story (manager dashboard) — simplify to basic metrics
+- Complex AI automation — use simpler rules
+- Advanced analytics — focus on essential KPIs
 
 **Don't cut**:
-- Basic functionality
-- Integration between core components
+- Core user flow (submit → triage)
+- Basic integration between components
 - Required documentation
-- Testing (at least manual)
+- At least smoke testing
+
+**Remember**: In a 1-week intensive bootcamp, depth on core features beats breadth!
 
 ---
 

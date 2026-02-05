@@ -162,7 +162,7 @@ Predict the category and priority of incoming support requests based on title an
 1. **Accuracy Tracking**: Compare predictions to agent's final classification
 2. **Confidence Distribution**: Monitor for shifting confidence scores
 3. **Category Distribution**: Detect unusual spikes in specific categories
-4. **Error Analysis**: Review misclassified requests monthly
+4. **Error Analysis**: Review misclassified requests regularly
 
 ### Retraining Schedule
 - **Quarterly**: Retrain with new data

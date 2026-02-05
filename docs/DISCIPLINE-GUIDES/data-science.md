@@ -104,7 +104,7 @@ print(f"Loaded {len(requests_df)} requests")
 
 ## 📖 Development Workflow
 
-### Phase 1: Exploratory Data Analysis (Week 1)
+### Phase 1: Exploratory Data Analysis (Days 1-2)
 
 **Goal**: Understand the data
 
@@ -167,7 +167,7 @@ pd.crosstab(df['category'], df['priority'], normalize='index')
 - What's the typical request length?
 - Any patterns between category and priority?
 
-### Phase 2: Feature Engineering (Week 2)
+### Phase 2: Feature Engineering (Days 2-3)
 
 **Goal**: Create features for ML models
 
@@ -219,7 +219,7 @@ joblib.dump(le_priority, '../models/label_encoder_priority.pkl')
 - Presence of keywords (e.g., "password", "network", "broken")
 - Department (if available)
 
-### Phase 3: Model Training (Week 2-3)
+### Phase 3: Model Training (Days 4-5)
 
 **Goal**: Build and train ML models
 
@@ -303,7 +303,7 @@ print(f"Best params: {grid_search.best_params_}")
 print(f"Best score: {grid_search.best_score_:.4f}")
 ```
 
-### Phase 4: Model Evaluation (Week 3)
+### Phase 4: Model Evaluation (Days 5-6)
 
 **Goal**: Assess model performance
 
@@ -365,7 +365,7 @@ for i in range(min(5, len(errors))):
 - Error patterns
 - Model limitations
 
-### Phase 5: Model Serving (Week 4)
+### Phase 5: Model Serving (Days 6-7)
 
 **Goal**: Deploy as REST API
 

@@ -14,23 +14,23 @@ This package provides scaffolding and templates for the Business Intelligence & 
 
 ## Team Deliverables
 
-### Phase 1: Data Setup (Week 1)
+### Phase 1: Data Setup (Days 1-2)
 - [ ] Load mock data into analytics tool
 - [ ] Validate data structure and quality
 - [ ] Document data sources and connections
 
-### Phase 2: Metrics & Queries (Week 2-3)
+### Phase 2: Metrics & Queries (Days 3-4)
 - [ ] Define metric calculations (`docs/METRIC-DEFINITIONS.md`)
 - [ ] Create SQL queries for key metrics
 - [ ] Test query performance and accuracy
 
-### Phase 3: Dashboard Development (Week 3-5)
+### Phase 3: Dashboard Development (Days 5-6)
 - [ ] Build request volume dashboard
 - [ ] Build SLA compliance dashboard
 - [ ] Build category/priority analysis dashboard
 - [ ] Build agent performance dashboard
 
-### Phase 4: Documentation & Handoff (Week 6)
+### Phase 4: Documentation & Handoff (Day 7)
 - [ ] Create dashboard usage guide
 - [ ] Write insights memo template
 - [ ] Train stakeholders on dashboard access
@@ -107,9 +107,9 @@ See `docs/METRIC-DEFINITIONS.md` for detailed calculations.
 - Agent workload distribution
 
 ### Trend Metrics
-- Week-over-week growth
-- Month-over-month growth
-- Seasonal patterns
+- Day-over-day growth
+- Hourly/daily patterns during the intensive bootcamp
+- Request volume trends
 
 ---
 
@@ -171,7 +171,7 @@ ORDER BY count DESC;
 2. **Volume Chart**: Line chart showing requests over time
 3. **Category Breakdown**: Pie or donut chart
 4. **Agent Performance**: Table or bar chart
-5. **Trend Indicators**: Week-over-week change arrows
+5. **Trend Indicators**: Day-over-day change arrows
 
 **Filters**:
 - Date range picker

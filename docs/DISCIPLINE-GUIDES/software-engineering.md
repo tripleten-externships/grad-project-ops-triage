@@ -180,19 +180,19 @@ Review:
 
 **Recommended: Backend-first approach**
 
-**Week 1-2: Backend Foundation**
+**Days 1-3: Backend Foundation**
 1. Set up database models
 2. Implement CRUD endpoints
 3. Add validation middleware
 4. Test with Postman/Insomnia
 
-**Week 3-4: Frontend Development**
+**Days 4-5: Frontend Development**
 1. Create page components
 2. Implement API calls
 3. Add forms and validation
 4. Style with CSS/UI library
 
-**Week 5: Integration**
+**Days 6-7: Integration & Testing**
 1. Connect frontend to backend
 2. Test full user flows
 3. Fix bugs

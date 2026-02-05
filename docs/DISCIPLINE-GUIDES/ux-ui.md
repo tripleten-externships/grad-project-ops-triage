@@ -82,7 +82,7 @@ As a **UX/UI Designer**, you are the voice of the user. Your work ensures the Op
 
 ## 📖 Development Workflow
 
-### Phase 1: Research & Discovery (Week 1-2)
+### Phase 1: Research & Discovery (Days 1-2)
 
 **Goal**: Understand users and their needs
 
@@ -141,7 +141,7 @@ Examples:
 - Agent task completion rate: > 90%
 - User satisfaction score: > 4/5
 
-### Phase 2: Information Architecture (Week 2-3)
+### Phase 2: Information Architecture (Days 2-3)
 
 **Goal**: Define structure and flows
 
@@ -194,7 +194,7 @@ Home
     └── Agent Performance
 ```
 
-### Phase 3: Design System (Week 3-4)
+### Phase 3: Design System (Days 3-5)
 
 **Goal**: Create consistent visual language
 
@@ -314,7 +314,7 @@ Document each component in [`design-system/components.md`](../../packages/ux-des
 - Descriptive text (avoid "Click here")
 ```
 
-### Phase 4: Wireframes & Prototypes (Week 4-5)
+### Phase 4: Wireframes & Prototypes (Days 5-6)
 
 **Goal**: Create interactive prototype
 
@@ -350,7 +350,7 @@ In Figma:
 
 **Share prototype link** in [`prototypes/figma-link.md`](../../packages/ux-design/prototypes/figma-link.md).
 
-### Phase 5: Accessibility & Handoff (Week 5-6)
+### Phase 5: Accessibility & Handoff (Days 6-7)
 
 **Goal**: Ensure inclusive design and smooth developer handoff
 

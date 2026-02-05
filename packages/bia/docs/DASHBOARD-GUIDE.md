@@ -41,8 +41,8 @@ This guide explains how to use the Request Management System dashboards to monit
 
 **When to Use**:
 - Daily standup meetings
-- Weekly team reviews
-- Monthly executive reports
+- Team reviews during bootcamp
+- Executive presentations
 - Quick system health check
 
 ---
@@ -95,7 +95,7 @@ This guide explains how to use the Request Management System dashboards to monit
 **Refresh Schedule**: Weekly
 
 **What You'll See**:
-- Week-over-week / month-over-month trends
+- Period-over-period trends
 - Seasonal patterns
 - Day-of-week / hour-of-day heatmaps
 - Request volume forecast
@@ -169,7 +169,7 @@ This guide explains how to use the Request Management System dashboards to monit
 
 **How to Read**:
 - Large number = primary metric
-- Smaller text = context (e.g., "+15% vs. last week")
+- Smaller text = context (e.g., "+15% vs. previous period")
 - Green ▲ = improving
 - Red ▼ = declining
 
@@ -249,8 +249,8 @@ This guide explains how to use the Request Management System dashboards to monit
 
 ---
 
-### Task 2: Review Weekly Performance
-**Goal**: See if we met SLA targets this week
+### Task 2: Review Performance
+**Goal**: See if we met SLA targets during the bootcamp
 
 **Steps**:
 1. Open Executive Overview
@@ -260,11 +260,11 @@ This guide explains how to use the Request Management System dashboards to monit
 
 ---
 
-### Task 3: Prepare Monthly Report
-**Goal**: Extract data for executive presentation
+### Task 3: Prepare Final Report
+**Goal**: Extract data for bootcamp presentation
 
 **Steps**:
-1. Set date filter to "Last month" (or specific month)
+1. Set date filter to bootcamp date range
 2. Screenshot KPI cards
 3. Export table data to Excel (if needed)
 4. See `INSIGHTS-MEMO.md` template for report format
@@ -369,12 +369,12 @@ This guide explains how to use the Request Management System dashboards to monit
 ## Best Practices
 
 ### 1. Use Consistent Date Ranges
-- Compare apples to apples (e.g., Week 1 vs. Week 2, not 7 days vs. 30 days)
+- Compare apples to apples (e.g., similar time periods with equal duration)
 - Account for holidays and outliers
 
 ### 2. Don't Cherry-Pick Data
 - Look at full picture, not just metrics that support your hypothesis
-- Consider context (e.g., high volume week due to product launch)
+- Consider context (e.g., high volume period due to product launch)
 
 ### 3. Cross-Validate Metrics
 - If SLA dropped, check resolution time AND request volume

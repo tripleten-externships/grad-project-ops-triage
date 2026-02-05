@@ -15,22 +15,22 @@ This package provides security assessment templates, threat models, and policies
 
 ## Team Deliverables
 
-### Phase 1: Threat Modeling (Week 1-2)
+### Phase 1: Threat Modeling (Days 1-2)
 - [ ] STRIDE analysis (`threat-model/STRIDE-analysis.md`)
 - [ ] Attack vector identification (`threat-model/attack-vectors.md`)
 - [ ] Asset identification and classification
 
-### Phase 2: Risk Assessment (Week 2-3)
+### Phase 2: Risk Assessment (Days 3-4)
 - [ ] Top 10 security risks (`risk-assessment/top-10-risks.md`)
 - [ ] Risk prioritization matrix
 - [ ] Mitigation strategies (`risk-assessment/mitigation-plan.md`)
 
-### Phase 3: Security Controls (Week 3-4)
+### Phase 3: Security Controls (Days 5-6)
 - [ ] Authentication policy (`policies/auth-policy.md`)
 - [ ] Input validation requirements (`policies/input-validation.md`)
 - [ ] Secrets management (`policies/secrets-management.md`)
 
-### Phase 4: Compliance & Documentation (Week 4-5)
+### Phase 4: Compliance & Documentation (Day 7)
 - [ ] OWASP Top 10 mapping (`checklists/owasp-top-10.md`)
 - [ ] Security checklist (`checklists/secure-by-default.md`)
 - [ ] AI-specific security (`checklists/ai-security.md`)

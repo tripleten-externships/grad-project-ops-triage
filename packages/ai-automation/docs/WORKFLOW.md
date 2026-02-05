@@ -240,9 +240,9 @@ Backend stores in `requests.ai_metadata` field for agent to review.
 ### Per Request (GPT-3.5-Turbo)
 - **Total**: ~400 tokens ≈ $0.0002
 
-### Monthly Cost (1000 requests/month)
-- GPT-4: $10/month
-- GPT-3.5-Turbo: $0.20/month
+### Example Cost (1000 requests)
+- GPT-4: $10
+- GPT-3.5-Turbo: $0.20
 
 **Recommendation**: GPT-3.5-Turbo is sufficient for most cases.
 

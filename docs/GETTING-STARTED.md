@@ -367,7 +367,7 @@ Now that your environment is set up:
 - **Daily standups**: Share progress and blockers
 - **Use contracts**: Don't wait for other teams; use mock data
 - **Document decisions**: Update relevant docs as you work
-- **Integration checkpoints**: Test with other disciplines weekly
+- **Integration checkpoints**: Test with other disciplines daily in this 1-week intensive bootcamp
 
 ---
 

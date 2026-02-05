@@ -15,7 +15,7 @@ This document defines how we measure the success of the Request Management Syste
 | <!-- e.g., Submission completion rate --> | >95% | <!-- Analytics: completed / started --> |
 | <!-- e.g., Time to submit request --> | <3 min | <!-- Analytics: timestamp tracking --> |
 | <!-- e.g., User satisfaction (NPS) --> | >8/10 | <!-- Post-submission survey --> |
-| <!-- e.g., Support tickets about "how to submit" --> | <5/month | <!-- Support ticket analysis --> |
+| <!-- e.g., Support tickets about "how to submit" --> | <5 total | <!-- Support ticket analysis --> |
 
 ### For Agents (US-02)
 <!-- TODO: Define agent efficiency and satisfaction metrics -->
@@ -33,8 +33,8 @@ This document defines how we measure the success of the Request Management Syste
 | Metric | Target | Measurement Method |
 |--------|--------|-------------------|
 | <!-- e.g., Time to generate weekly report --> | <15 min | <!-- Time tracking --> |
-| <!-- e.g., Actionable insights identified --> | >3/week | <!-- Manager feedback --> |
-| <!-- e.g., Dashboard usage frequency --> | 5x/week | <!-- Analytics --> |
+| <!-- e.g., Actionable insights identified --> | >3 total | <!-- Manager feedback --> |
+| <!-- e.g., Dashboard usage frequency --> | Daily | <!-- Analytics --> |
 | <!-- e.g., Data accuracy --> | >98% | <!-- Audit vs. manual count --> |
 
 ---

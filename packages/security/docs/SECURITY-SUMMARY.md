@@ -102,7 +102,7 @@ This document provides a high-level overview of security considerations, threats
 4. Enable audit logging
 5. Set up alerting for security events
 
-### Short-Term (First Month)
+### Short-Term (Post-Bootcamp)
 1. Implement MFA for all users
 2. Set up automated vulnerability scanning
 3. Conduct user security training

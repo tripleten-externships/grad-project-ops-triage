@@ -86,7 +86,7 @@
 - <!-- e.g., Manual reporting is time-consuming -->
 
 ### Behaviors
-- <!-- e.g., Reviews metrics weekly -->
+- <!-- e.g., Reviews metrics daily during bootcamp -->
 - <!-- e.g., Holds 1:1s with agents based on workload -->
 - <!-- e.g., Uses data to advocate for resources -->
 

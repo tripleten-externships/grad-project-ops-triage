@@ -170,19 +170,19 @@ pnpm exec playwright test --ui
 
 ## Test Approach
 
-### Phase 1: Test Design (Week 1-2)
+### Phase 1: Test Design (Days 1-2)
 - Review requirements (user stories, contracts)
 - Write test cases for each user story
 - Design test data
 - Set up test environment
 
-### Phase 2: Manual Testing (Week 3-4)
+### Phase 2: Manual Testing (Days 3-5)
 - Execute test cases manually
 - Document bugs
 - Verify bug fixes
 - Exploratory testing
 
-### Phase 3: Test Automation (Week 5-6)
+### Phase 3: Test Automation (Days 6-7)
 - Automate happy paths
 - Automate critical flows
 - Set up CI/CD integration

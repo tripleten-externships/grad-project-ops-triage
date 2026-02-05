@@ -14,22 +14,22 @@ This package provides testing strategy, test cases, and end-to-end test scaffold
 
 ## Team Deliverables
 
-### Phase 1: Test Planning (Week 1)
+### Phase 1: Test Planning (Days 1-2)
 - [ ] Test strategy document (`test-strategy/TEST-STRATEGY.md`)
 - [ ] Test coverage plan (`test-strategy/test-pyramid.md`)
 - [ ] Traceability matrix (`test-cases/traceability-matrix.md`)
 
-### Phase 2: Test Case Development (Week 2-3)
+### Phase 2: Test Case Development (Days 3-4)
 - [ ] US-01 test cases (`test-cases/submit-request.md`)
 - [ ] US-02 test cases (`test-cases/agent-triage.md`)
 - [ ] US-03 test cases (`test-cases/manager-dashboard.md`)
 
-### Phase 3: Test Automation (Week 3-5)
+### Phase 3: Test Automation (Days 5-6)
 - [ ] E2E tests with Playwright (`e2e-tests/tests/`)
 - [ ] API tests (`api-tests/`)
 - [ ] Accessibility tests (`accessibility-tests/`)
 
-### Phase 4: Execution & Reporting (Week 5-6)
+### Phase 4: Execution & Reporting (Day 7)
 - [ ] Execute test suite
 - [ ] Log bugs (`docs/BUG-TEMPLATE.md`)
 - [ ] Track to resolution

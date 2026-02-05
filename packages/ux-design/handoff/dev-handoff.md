@@ -23,17 +23,17 @@ This document provides frontend developers with everything needed to implement t
 
 ## Implementation Priorities
 
-### Phase 1: Foundation (Week 1-2)
+### Phase 1: Foundation (Days 1-2)
 1. Set up design tokens (CSS variables or theme config)
 2. Create base components (Button, Input, Badge, Card)
 3. Implement layout structure (Header, Container, Grid)
 
-### Phase 2: User Stories (Week 3-5)
+### Phase 2: User Stories (Days 3-6)
 4. US-01: Submit Request form and flow
 5. US-02: Agent Triage dashboard and detail view
 6. US-03: Manager Insights dashboard
 
-### Phase 3: Polish (Week 6)
+### Phase 3: Polish (Day 7)
 7. Accessibility audit and fixes
 8. Responsive design for mobile/tablet
 9. Loading states, transitions, micro-interactions
@@ -366,7 +366,7 @@ Before marking a feature complete, verify:
 ### Questions & Clarifications
 - Post questions in design-dev channel
 - Tag @ux-designer for design-specific questions
-- Schedule design review sessions weekly
+- Schedule design review sessions throughout the week
 
 ### Feedback Loop
 1. Developer implements feature

@@ -27,24 +27,24 @@ data-science/
 
 ## Team Deliverables
 
-### Phase 1: Data Exploration (Week 1-2)
+### Phase 1: Data Exploration (Days 1-2)
 - [ ] Load and explore mock data from `contracts/mock-data/`
 - [ ] Exploratory data analysis (EDA) in `notebooks/01-eda.ipynb`
 - [ ] Identify features for category/priority prediction
 - [ ] Document data quality issues
 
-### Phase 2: Feature Engineering (Week 2-3)
+### Phase 2: Feature Engineering (Days 3-4)
 - [ ] Text preprocessing (title, description)
 - [ ] Feature extraction (TF-IDF, embeddings)
 - [ ] Feature engineering notebook: `notebooks/02-feature-engineering.ipynb`
 
-### Phase 3: Model Development (Week 3-4)
+### Phase 3: Model Development (Days 5-6)
 - [ ] Train classification models (category, priority)
 - [ ] Evaluate model performance
 - [ ] Model training notebook: `notebooks/03-model-training.ipynb`
 - [ ] Model evaluation notebook: `notebooks/04-model-evaluation.ipynb`
 
-### Phase 4: Model Deployment (Week 5-6)
+### Phase 4: Model Deployment (Day 7)
 - [ ] Create production prediction script: `src/models/predict.py`
 - [ ] Build FastAPI endpoint: `api/app.py`
 - [ ] Document integration: `docs/INTEGRATION.md`

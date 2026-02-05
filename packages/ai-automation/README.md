@@ -45,23 +45,23 @@ This package provides AI-powered automation for the Request Management System, i
 
 ## Team Deliverables
 
-### Phase 1: Setup (Week 1)
+### Phase 1: Setup (Days 1-2)
 - [ ] Set up API keys (OpenAI, Anthropic, etc.)
 - [ ] Define workflow triggers
 - [ ] Create initial prompts
 
-### Phase 2: Development (Week 2-3)
+### Phase 2: Development (Days 3-4)
 - [ ] Implement automation logic
 - [ ] Test prompts with sample requests
 - [ ] Implement confidence thresholding
 - [ ] Add guardrails
 
-### Phase 3: Integration (Week 4-5)
+### Phase 3: Integration (Days 5-6)
 - [ ] Integrate with backend webhooks
 - [ ] Implement fallback logic
 - [ ] Add monitoring and logging
 
-### Phase 4: Validation (Week 6)
+### Phase 4: Validation (Day 7)
 - [ ] A/B test with manual triage
 - [ ] Measure accuracy
 - [ ] Tune prompts based on results

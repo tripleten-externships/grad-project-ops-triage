@@ -345,7 +345,7 @@ WHERE created_at >= start_date
 
 **Calculation** (linear trend):
 ```
-Forecast = avg_daily_requests * days_in_month * growth_factor
+Forecast = avg_daily_requests * days_in_period * growth_factor
 ```
 
 **Purpose**: Resource planning, budgeting.

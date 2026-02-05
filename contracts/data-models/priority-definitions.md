@@ -155,7 +155,7 @@ Can de-escalate priority when:
 ### Breach Response
 1. **P0 Breach**: Immediate escalation to Director, post-mortem required
 2. **P1 Breach**: Escalation to Manager, explanation required
-3. **P2 Breach**: Documented and reviewed in weekly ops meeting
+3. **P2 Breach**: Documented and reviewed in daily ops meeting
 4. **P3 Breach**: Tracked but no immediate action required
 
 ### Measuring SLA Compliance

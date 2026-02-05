@@ -23,9 +23,9 @@ BUG-XXX
 
 ## Priority
 <!-- Choose one -->
-- [ ] Blocker (Must fix before release)
-- [ ] High (Fix in current sprint)
-- [ ] Medium (Fix in next sprint)
+- [ ] Blocker (Must fix immediately)
+- [ ] High (Fix during bootcamp)
+- [ ] Medium (Fix if time permits)
 - [ ] Low (Backlog)
 
 ---
@@ -169,7 +169,7 @@ Refresh the page and re-enter all form data without making validation mistakes.
 **Reported By**: QA Engineer Name  
 **Date Reported**: 2026-02-05  
 **Assigned To**: <!-- Developer name -->  
-**Target Fix Date**: <!-- Sprint end date -->  
+**Target Fix Date**: <!-- Target date within bootcamp -->
 
 **Status**: 
 - [ ] New

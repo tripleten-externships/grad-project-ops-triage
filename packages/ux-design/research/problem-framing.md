@@ -51,7 +51,7 @@
 
 - **Technical**: <!-- e.g., Must integrate with existing auth system -->
 - **Budget**: <!-- e.g., Use open-source tools where possible -->
-- **Timeline**: <!-- e.g., MVP in 8 weeks -->
+- **Timeline**: <!-- e.g., MVP in 1 week (intensive bootcamp project) -->
 - **Scope**: <!-- Reference user stories US-01, US-02, US-03 only -->
 
 ---

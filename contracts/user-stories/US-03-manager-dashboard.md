@@ -51,7 +51,7 @@
   - Current workload (requests in progress)
   - Average resolution time
   - SLA compliance rate
-  - Number of requests resolved today/week
+  - Number of requests resolved today
 - **And** I can sort by any metric
 - **And** I can identify agents who may need support
 
@@ -59,8 +59,8 @@
 - **Given** I want to identify patterns
 - **When** I view trend charts
 - **Then** I see:
-  - Request volume trends by day/week/month
-  - Peak hours/days for submissions
+  - Request volume trends by hour/day
+  - Peak hours for submissions
   - Category trends over time
   - Resolution time trends
 - **And** I can export charts as images for reports
@@ -262,8 +262,8 @@ GET /v1/analytics/metrics?start_date=2026-02-01T00:00:00Z&end_date=2026-02-04T23
 
 ### Scheduled Reports
 - Daily summary (sent at 9am)
-- Weekly performance report (sent Monday 9am)
-- Monthly executive summary (sent 1st of month)
+- End-of-day performance report (sent each evening)
+- End-of-bootcamp summary (sent on final day)
 - Custom schedules available
 
 ---
@@ -276,8 +276,8 @@ GET /v1/analytics/metrics?start_date=2026-02-01T00:00:00Z&end_date=2026-02-04T23
 - **Alert Response Time**: Manager action within 15 minutes of alert
 
 ### Business Impact
-- **SLA Compliance Improvement**: Increase from 90% to 95%+ after 3 months
-- **Resource Optimization**: Reduce agent overload instances by 50%
+- **SLA Compliance Improvement**: Increase from 90% to 95%+ during the intensive bootcamp
+- **Resource Optimization**: Reduce agent overload instances by 50% through better visibility
 - **Proactive Issue Detection**: Identify 80% of issues before they escalate
 
 ---
@@ -315,7 +315,7 @@ GET /v1/analytics/metrics?start_date=2026-02-01T00:00:00Z&end_date=2026-02-04T23
 - **Action**: "Refresh now" button available
 
 ### EC-3: Large Data Volume
-- **Scenario**: Exporting 6 months of detailed data
+- **Scenario**: Exporting bootcamp period detailed data
 - **Behavior**: Process asynchronously and email download link
 - **Message**: "Your export is being prepared. You'll receive an email with download link."
 
@@ -334,7 +334,7 @@ GET /v1/analytics/metrics?start_date=2026-02-01T00:00:00Z&end_date=2026-02-04T23
 ---
 
 ## Notes
-- Consider adding predictive analytics (e.g., "Expected requests in next 7 days")
+- Consider adding predictive analytics (e.g., "Expected requests in next 1-2 days")
 - Integration with workforce management systems for staffing recommendations
 - Benchmarking against industry standards or historical performance
-- A/B testing for different triage strategies and measuring impact
+- A/B testing for different triage strategies and measuring impact (future iteration)

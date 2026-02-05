@@ -115,7 +115,7 @@ const requests = await db.query(
 **Risk**: Using libraries with known vulnerabilities
 
 ### Checklist
-- [ ] Regular `npm audit` (weekly)
+- [ ] Regular `npm audit` (daily during intensive bootcamp)
 - [ ] Dependencies updated (Dependabot, Renovate)
 - [ ] No critical vulnerabilities in production
 - [ ] Unused dependencies removed
