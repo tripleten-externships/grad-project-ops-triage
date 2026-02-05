@@ -1,0 +1,86 @@
+[
+  {
+    "id": "manager-001",
+    "name": "Sarah Chen",
+    "email": "sarah.chen@company.com",
+    "role": "manager",
+    "team": "technical"
+  },
+  {
+    "id": "manager-002",
+    "name": "Michael Roberts",
+    "email": "michael.roberts@company.com",
+    "role": "manager",
+    "team": "billing"
+  },
+  {
+    "id": "agent-001",
+    "name": "John Doe",
+    "email": "john.doe@company.com",
+    "role": "agent",
+    "team": "technical"
+  },
+  {
+    "id": "agent-002",
+    "name": "Jane Smith",
+    "email": "jane.smith@company.com",
+    "role": "agent",
+    "team": "technical"
+  },
+  {
+    "id": "agent-003",
+    "name": "Robert Wilson",
+    "email": "robert.wilson@company.com",
+    "role": "agent",
+    "team": "billing"
+  },
+  {
+    "id": "agent-004",
+    "name": "Emily Davis",
+    "email": "emily.davis@company.com",
+    "role": "agent",
+    "team": "account"
+  },
+  {
+    "id": "agent-005",
+    "name": "David Martinez",
+    "email": "david.martinez@company.com",
+    "role": "agent",
+    "team": "general"
+  },
+  {
+    "id": "agent-006",
+    "name": "Lisa Anderson",
+    "email": "lisa.anderson@company.com",
+    "role": "agent",
+    "team": "technical"
+  },
+  {
+    "id": "user-001",
+    "name": "Alice Johnson",
+    "email": "alice.johnson@example.com",
+    "role": "requester",
+    "team": null
+  },
+  {
+    "id": "user-002",
+    "name": "Bob Williams",
+    "email": "bob.williams@enterprise.com",
+    "role": "requester",
+    "team": null
+  },
+  {
+    "id": "user-003",
+    "name": "Carol Brown",
+    "email": "carol.brown@startup.io",
+    "role": "requester",
+    "team": null
+  },
+  {
+    "id": "user-004",
+    "name": "Daniel Lee",
+    "email": "daniel.lee@freelance.net",
+    "role": "requester",
+    "team": null
+  }
+]

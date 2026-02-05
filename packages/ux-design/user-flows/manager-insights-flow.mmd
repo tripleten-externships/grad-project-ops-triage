@@ -1,0 +1,65 @@
+%% Manager Insights User Flow (US-03)
+%% Reference: contracts/user-stories/US-03-manager-dashboard.md
+%% TODO: Define specific metrics and visualizations
+
+graph TD
+    Start([Manager opens insights dashboard]) --> CheckAuth{Manager authenticated?}
+    
+    CheckAuth -->|No| Login[Redirect to login]
+    Login --> Start
+    
+    CheckAuth -->|Yes| LoadDashboard[Load dashboard data]
+    LoadDashboard --> DisplayMetrics[Display key metrics]
+    
+    DisplayMetrics --> ViewOptions{What to view?}
+    
+    ViewOptions -->|Overview| ShowOverview[Show high-level metrics<br/>Total requests, avg resolution time,<br/>SLA compliance]
+    ViewOptions -->|Volume Trends| ShowVolume[Show request volume chart<br/>by date/category]
+    ViewOptions -->|Agent Performance| ShowAgents[Show agent metrics<br/>requests handled, avg time]
+    ViewOptions -->|Category Analysis| ShowCategories[Show category breakdown<br/>pie/bar chart]
+    
+    ShowOverview --> InteractCheck{Interact with data?}
+    ShowVolume --> InteractCheck
+    ShowAgents --> InteractCheck
+    ShowCategories --> InteractCheck
+    
+    InteractCheck -->|Drill down| DrillDown[Click on chart element]
+    DrillDown --> ShowDetail[Show filtered detailed view]
+    ShowDetail --> InteractCheck
+    
+    InteractCheck -->|Filter| ApplyFilter[Apply date range/filter]
+    ApplyFilter --> LoadDashboard
+    
+    InteractCheck -->|Export| ExportData{Export format?}
+    ExportData -->|PDF| ExportPDF[Generate PDF report]
+    ExportData -->|CSV| ExportCSV[Export data as CSV]
+    ExportData -->|Email| EmailReport[Email report to stakeholders]
+    
+    ExportPDF --> Downloaded[File downloaded]
+    ExportCSV --> Downloaded
+    EmailReport --> Sent[Email sent confirmation]
+    
+    InteractCheck -->|None| ViewMore{View more?}
+    
+    Downloaded --> ViewMore
+    Sent --> ViewMore
+    
+    ViewMore -->|Yes| ViewOptions
+    ViewMore -->|No| End([End])
+    
+    %% Styling
+    classDef userAction fill:#e1f5ff,stroke:#01579b,stroke-width:2px
+    classDef systemAction fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef decision fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef dataViz fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+    
+    class DrillDown,ApplyFilter userAction
+    class LoadDashboard,DisplayMetrics,ShowDetail,ExportPDF,ExportCSV,EmailReport,Downloaded,Sent systemAction
+    class CheckAuth,ViewOptions,InteractCheck,ExportData,ViewMore decision
+    class ShowOverview,ShowVolume,ShowAgents,ShowCategories dataViz
+    
+    %% Notes for implementation
+    %% - Metrics definitions: packages/bia/docs/METRIC-DEFINITIONS.md
+    %% - Data source: contracts/mock-data/ for development
+    %% - Charts: Use visualization library (Chart.js, Recharts, D3)
+    %% - Filters: Date range, category, agent, priority, status

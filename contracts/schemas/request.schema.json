@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/request.schema.json",
+  "title": "Support Request",
+  "description": "Schema for a support request/ticket object",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "description",
+    "category",
+    "priority",
+    "status",
+    "requester_type",
+    "channel",
+    "created_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the request",
+      "pattern": "^REQ-[0-9]{6}$",
+      "examples": ["REQ-000001", "REQ-123456"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Short summary of the request",
+      "minLength": 5,
+      "maxLength": 200,
+      "examples": ["Unable to login to account", "Billing discrepancy on invoice"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the issue or request",
+      "minLength": 10,
+      "maxLength": 5000,
+      "examples": ["I've been trying to log in for the past hour but keep getting an error..."]
+    },
+    "category": {
+      "type": "string",
+      "description": "Category of the support request",
+      "enum": ["technical", "account", "billing", "general"],
+      "examples": ["technical", "billing"]
+    },
+    "priority": {
+      "type": "string",
+      "description": "Priority level (P0=Critical, P1=High, P2=Medium, P3=Low)",
+      "enum": ["P0", "P1", "P2", "P3"],
+      "examples": ["P1", "P2"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the request",
+      "enum": ["new", "triaged", "in_progress", "waiting", "resolved", "closed"],
+      "examples": ["new", "triaged", "in_progress"]
+    },
+    "requester_type": {
+      "type": "string",
+      "description": "Type of user submitting the request",
+      "enum": ["free", "paid", "enterprise", "internal"],
+      "examples": ["paid", "enterprise"]
+    },
+    "channel": {
+      "type": "string",
+      "description": "Channel through which the request was submitted",
+      "enum": ["email", "chat", "phone", "web_form", "api"],
+      "examples": ["web_form", "email"]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the request was created",
+      "examples": ["2026-02-01T10:30:00Z"]
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the request was last updated",
+      "examples": ["2026-02-01T15:45:00Z"]
+    },
+    "assigned_to": {
+      "type": ["string", "null"],
+      "description": "ID of the agent assigned to this request",
+      "examples": ["agent-001", null]
+    },
+    "resolution_code": {
+      "type": ["string", "null"],
+      "description": "Code indicating how the request was resolved",
+      "enum": ["solved", "workaround", "duplicate", "wont_fix", "spam", null],
+      "examples": ["solved", "workaround", null]
+    },
+    "tags": {
+      "type": "array",
+      "description": "Array of tags for categorization and search",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true,
+      "examples": [["login", "authentication"], ["payment", "refund"]]
+    }
+  },
+  "additionalProperties": false
+}

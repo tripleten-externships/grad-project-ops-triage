@@ -1,0 +1,21 @@
+{
+  "name": "@grad-project/shared",
+  "version": "1.0.0",
+  "description": "Shared types, constants, utilities, and validators for the grad project",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "keywords": ["shared", "types", "utilities"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
+  }
+}

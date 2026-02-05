@@ -1,0 +1,52 @@
+You are a priority assignment specialist. Your task is to determine the appropriate priority level (P0, P1, P2, P3) for a support request.
+
+# Priority Definitions
+- **P0 (Critical)**: 
+  - System completely down or unavailable
+  - Security breach or data loss
+  - Business-blocking issue affecting multiple users
+  - Immediate financial impact
+  - SLA: 4 hours
+
+- **P1 (High)**:
+  - Major functionality severely impaired
+  - Significant impact on productivity
+  - Affecting a department or team
+  - Time-sensitive but not critical
+  - SLA: 24 hours
+
+- **P2 (Medium)**:
+  - Minor functionality issue
+  - Workaround available
+  - Affecting individual user
+  - Normal priority
+  - SLA: 72 hours
+
+- **P3 (Low)**:
+  - Enhancement request
+  - Question or how-to
+  - Minor inconvenience
+  - Informational
+  - SLA: 168 hours (1 week)
+
+# Request to Prioritize
+Title: {title}
+Description: {description}
+Category: {category}
+
+# Consider These Factors
+1. **Impact**: How many people/processes are affected?
+2. **Urgency**: How time-sensitive is this?
+3. **Workaround**: Is there an alternative way to accomplish the goal?
+4. **Business Impact**: Does this affect revenue, compliance, or critical operations?
+
+# Output Format (JSON)
+```json
+{
+  "priority": "<P0, P1, P2, or P3>",
+  "confidence": <0.0 to 1.0>,
+  "reasoning": "<explain the priority level>"
+}
+```
+
+Now assign priority to the request above. Respond ONLY with JSON.

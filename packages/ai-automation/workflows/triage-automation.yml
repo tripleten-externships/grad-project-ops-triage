@@ -1,0 +1,173 @@
+# Request Triage Automation Workflow
+# This workflow defines how AI automation handles new requests
+
+name: Request Triage Automation
+version: 1.0.0
+description: Automatically categorize and prioritize incoming requests using LLM
+
+# Trigger: When a new request is created
+trigger:
+  event: request.created
+  source: backend_webhook
+  endpoint: POST /triage
+
+# Workflow Steps
+steps:
+  - name: Validate Input
+    action: validate_request
+    config:
+      required_fields:
+        - request_id
+        - title
+        - description
+      min_description_length: 10
+      max_description_length: 5000
+    on_failure: return_error
+
+  - name: Check PII and Sensitive Content
+    action: scan_for_sensitive_data
+    config:
+      enable_pii_detection: ${ENABLE_PII_DETECTION}
+      flag_keywords:
+        - "confidential"
+        - "salary"
+        - "termination"
+        - "legal"
+    on_detection: flag_for_manual_review
+
+  - name: Try DS Model First (if available)
+    action: call_ds_model
+    config:
+      endpoint: ${DS_MODEL_API_URL}/predict
+      timeout: 2000  # 2 seconds
+      confidence_threshold: ${CATEGORY_CONFIDENCE_THRESHOLD}
+    on_success: check_confidence
+    on_failure: proceed_to_llm
+
+  - name: Check DS Model Confidence
+    action: evaluate_confidence
+    condition: ds_model_confidence >= 0.7
+    on_true: use_ds_prediction
+    on_false: proceed_to_llm
+
+  - name: Call LLM for Triage
+    action: llm_categorize
+    config:
+      provider: ${LLM_PROVIDER}
+      model: ${OPENAI_MODEL}
+      prompt_template: prompts/categorize-request.txt
+      max_tokens: 200
+      temperature: 0.3  # Lower for more consistent categories
+    output:
+      - suggested_category
+      - category_confidence
+      - suggested_priority
+      - priority_confidence
+      - reasoning
+
+  - name: Summarize Request
+    action: llm_summarize
+    config:
+      provider: ${LLM_PROVIDER}
+      prompt_template: prompts/summarize-request.txt
+      max_tokens: 100
+      temperature: 0.5
+    output:
+      - summary
+
+  - name: Validate LLM Output
+    action: validate_llm_response
+    config:
+      allowed_categories:
+        - "IT Support"
+        - "HR"
+        - "Facilities"
+        - "Finance"
+        - "Other"
+      allowed_priorities:
+        - "P0"
+        - "P1"
+        - "P2"
+        - "P3"
+      min_confidence: 0.5
+    on_failure: use_defaults
+
+  - name: Apply Guardrails
+    action: apply_guardrails
+    config:
+      rules:
+        - If priority == "P0", require manual approval
+        - If confidence < 0.6, mark as "needs_review"
+        - If sensitive content flagged, assign to HR category
+    reference: prompts/guardrails.md
+
+  - name: Log Prediction
+    action: log_to_database
+    config:
+      table: ai_predictions
+      fields:
+        - request_id
+        - suggested_category
+        - category_confidence
+        - suggested_priority
+        - priority_confidence
+        - summary
+        - model_used
+        - timestamp
+
+  - name: Return Response
+    action: send_response
+    format: json
+    schema: contracts/integration-points/ai-automation-input.schema.json
+    fields:
+      request_id: ${input.request_id}
+      suggested_category: ${steps.categorize.category}
+      category_confidence: ${steps.categorize.confidence}
+      suggested_priority: ${steps.categorize.priority}
+      priority_confidence: ${steps.categorize.priority_confidence}
+      summary: ${steps.summarize.summary}
+      reasoning: ${steps.categorize.reasoning}
+      needs_manual_review: ${steps.guardrails.needs_review}
+      model: ${LLM_PROVIDER}/${OPENAI_MODEL}
+      timestamp: ${current_timestamp}
+
+# Error Handling
+error_handling:
+  on_llm_api_error:
+    action: retry
+    max_retries: 3
+    backoff: exponential
+    fallback: use_ds_model_or_defaults
+
+  on_timeout:
+    action: return_partial_response
+    include_error: true
+
+  on_validation_failure:
+    action: flag_for_manual_review
+
+# Monitoring
+monitoring:
+  track_metrics:
+    - llm_api_latency
+    - llm_api_cost
+    - prediction_accuracy (compare to agent's final decision)
+    - confidence_distribution
+    - override_rate
+
+  alerts:
+    - condition: avg_confidence < 0.5 for 10+ requests
+      action: notify_ai_team
+    - condition: cost_per_day > $100
+      action: notify_devops
+
+# Cost Optimization
+cost_optimization:
+  use_cache: true
+  cache_duration: 3600  # 1 hour for similar requests
+  batch_when_possible: false  # Requests are real-time
+  prefer_cheaper_model: true  # Try GPT-3.5 before GPT-4
+
+# TODO: Adjust thresholds based on accuracy testing
+# TODO: Add more sophisticated guardrails
+# TODO: Implement A/B testing between DS model and LLM

@@ -1,0 +1,337 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/ai-automation-input.schema.json",
+  "title": "AI Automation Workflow Input",
+  "description": "Input schema for AI-powered automation workflows (auto-response, categorization, etc.)",
+  "type": "object",
+  "required": [
+    "workflow_type",
+    "request",
+    "context"
+  ],
+  "properties": {
+    "workflow_type": {
+      "type": "string",
+      "enum": [
+        "auto_response",
+        "smart_categorization",
+        "sentiment_analysis",
+        "knowledge_base_suggestion",
+        "escalation_prediction",
+        "auto_assignment"
+      ],
+      "description": "Type of automation workflow to execute",
+      "examples": ["auto_response", "smart_categorization"]
+    },
+    "request": {
+      "type": "object",
+      "description": "The support request to process",
+      "required": ["id", "title", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^REQ-[0-9]{6}$",
+          "description": "Request ID",
+          "examples": ["REQ-000123"]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 200,
+          "description": "Request title",
+          "examples": ["Cannot login to account"]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 5000,
+          "description": "Detailed description",
+          "examples": ["I've been trying to log in for the past hour..."]
+        },
+        "category": {
+          "type": "string",
+          "enum": ["technical", "account", "billing", "general"],
+          "description": "Category (if already set)",
+          "examples": ["technical"]
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["P0", "P1", "P2", "P3"],
+          "description": "Priority (if already set)",
+          "examples": ["P1"]
+        },
+        "requester_type": {
+          "type": "string",
+          "enum": ["free", "paid", "enterprise", "internal"],
+          "description": "Type of requester",
+          "examples": ["paid"]
+        },
+        "channel": {
+          "type": "string",
+          "enum": ["email", "chat", "phone", "web_form", "api"],
+          "description": "Submission channel",
+          "examples": ["web_form"]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When request was created",
+          "examples": ["2026-02-04T14:30:00Z"]
+        },
+        "tags": {
+          "type": "array",
+          "description": "Existing tags",
+          "items": {
+            "type": "string"
+          },
+          "examples": [["login", "authentication"]]
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "description": "Additional context for the workflow",
+      "properties": {
+        "requester": {
+          "type": "object",
+          "description": "Information about the requester",
+          "properties": {
+            "user_id": {
+              "type": "string",
+              "examples": ["user-001"]
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "examples": ["user@example.com"]
+            },
+            "account_age_days": {
+              "type": "integer",
+              "description": "How long they've been a customer",
+              "examples": [365]
+            },
+            "previous_requests_count": {
+              "type": "integer",
+              "description": "Number of previous requests",
+              "examples": [5]
+            },
+            "satisfaction_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 5,
+              "description": "Average satisfaction rating (0-5)",
+              "examples": [4.2]
+            }
+          }
+        },
+        "historical_data": {
+          "type": "object",
+          "description": "Historical patterns and trends",
+          "properties": {
+            "similar_requests": {
+              "type": "array",
+              "description": "Similar past requests",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "request_id": {
+                    "type": "string",
+                    "pattern": "^REQ-[0-9]{6}$"
+                  },
+                  "similarity_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "resolution": {
+                    "type": "string"
+                  },
+                  "resolution_time_hours": {
+                    "type": "number"
+                  }
+                }
+              },
+              "maxItems": 10
+            },
+            "category_trends": {
+              "type": "object",
+              "description": "Recent trends in this category",
+              "properties": {
+                "volume_last_7_days": {
+                  "type": "integer",
+                  "examples": [156]
+                },
+                "avg_resolution_time_hours": {
+                  "type": "number",
+                  "examples": [12.5]
+                }
+              }
+            }
+          }
+        },
+        "knowledge_base": {
+          "type": "object",
+          "description": "Knowledge base context",
+          "properties": {
+            "matching_articles": {
+              "type": "array",
+              "description": "Relevant KB articles",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "article_id": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "relevance_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "maxItems": 5
+            }
+          }
+        },
+        "team_availability": {
+          "type": "object",
+          "description": "Current team capacity (for assignment)",
+          "properties": {
+            "available_agents": {
+              "type": "array",
+              "description": "Agents currently available",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "agent_id": {
+                    "type": "string",
+                    "pattern": "^agent-[0-9]{3,6}$"
+                  },
+                  "team": {
+                    "type": "string",
+                    "enum": ["technical", "billing", "account", "general"]
+                  },
+                  "current_workload": {
+                    "type": "integer",
+                    "description": "Number of active requests"
+                  },
+                  "expertise_areas": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "workflow_config": {
+      "type": "object",
+      "description": "Configuration for the specific workflow",
+      "properties": {
+        "auto_response": {
+          "type": "object",
+          "description": "Config for auto-response workflow",
+          "properties": {
+            "tone": {
+              "type": "string",
+              "enum": ["formal", "friendly", "empathetic", "concise"],
+              "default": "friendly"
+            },
+            "include_kb_links": {
+              "type": "boolean",
+              "description": "Whether to include knowledge base article links",
+              "default": true
+            },
+            "max_response_length": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 1000,
+              "default": 500
+            }
+          }
+        },
+        "smart_categorization": {
+          "type": "object",
+          "description": "Config for categorization workflow",
+          "properties": {
+            "confidence_threshold": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Minimum confidence to auto-categorize",
+              "default": 0.8
+            },
+            "suggest_tags": {
+              "type": "boolean",
+              "description": "Whether to suggest tags",
+              "default": true
+            }
+          }
+        },
+        "auto_assignment": {
+          "type": "object",
+          "description": "Config for auto-assignment workflow",
+          "properties": {
+            "respect_workload": {
+              "type": "boolean",
+              "description": "Consider agent workload in assignment",
+              "default": true
+            },
+            "max_workload_per_agent": {
+              "type": "integer",
+              "description": "Max concurrent requests per agent",
+              "default": 10
+            },
+            "prefer_expertise": {
+              "type": "boolean",
+              "description": "Prefer agents with relevant expertise",
+              "default": true
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Request metadata",
+      "properties": {
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID for tracking this workflow execution",
+          "examples": ["550e8400-e29b-41d4-a716-446655440000"]
+        },
+        "requested_by": {
+          "type": "string",
+          "description": "Who/what initiated this workflow",
+          "examples": ["system", "agent-001", "api-client"]
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["low", "normal", "high"],
+          "description": "Processing priority for this workflow",
+          "default": "normal"
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300,
+          "description": "Max time to wait for workflow completion",
+          "default": 30
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

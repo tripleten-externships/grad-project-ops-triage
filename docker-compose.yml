@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: ops-triage-mongodb
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: ops_triage
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - ops-triage-network
+
+  postgresql:
+    image: postgres:16
+    container_name: ops-triage-postgresql
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ops_triage
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    networks:
+      - ops-triage-network
+
+  # Service placeholders - to be configured when workspace packages are created
+  # backend:
+  #   build:
+  #     context: ./packages/backend
+  #     dockerfile: Dockerfile
+  #   container_name: ops-triage-backend
+  #   restart: unless-stopped
+  #   ports:
+  #     - '3000:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #     MONGODB_URI: mongodb://admin:password@mongodb:27017/ops_triage?authSource=admin
+  #   depends_on:
+  #     - mongodb
+  #     - postgresql
+  #   networks:
+  #     - ops-triage-network
+
+  # frontend:
+  #   build:
+  #     context: ./packages/frontend
+  #     dockerfile: Dockerfile
+  #   container_name: ops-triage-frontend
+  #   restart: unless-stopped
+  #   ports:
+  #     - '5173:5173'
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - ops-triage-network
+
+  # ds-model:
+  #   build:
+  #     context: ./packages/ds-model
+  #     dockerfile: Dockerfile
+  #   container_name: ops-triage-ds-model
+  #   restart: unless-stopped
+  #   ports:
+  #     - '8000:8000'
+  #   environment:
+  #     PYTHON_ENV: development
+  #   networks:
+  #     - ops-triage-network
+
+volumes:
+  mongodb_data:
+    driver: local
+  postgresql_data:
+    driver: local
+
+networks:
+  ops-triage-network:
+    driver: bridge

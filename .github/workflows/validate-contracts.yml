@@ -1,0 +1,138 @@
+name: Validate Contracts
+
+on:
+  push:
+    paths:
+      - 'contracts/**'
+  pull_request:
+    paths:
+      - 'contracts/**'
+  workflow_dispatch:
+
+jobs:
+  validate-schemas:
+    name: Validate JSON Schemas
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate JSON schemas
+        run: node scripts/validate-contracts.js
+        continue-on-error: false
+
+  validate-mock-data:
+    name: Validate Mock Data Against Schemas
+    runs-on: ubuntu-latest
+    needs: validate-schemas
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate mock data matches schemas
+        run: |
+          echo "Validating mock data against JSON schemas..."
+          node scripts/validate-contracts.js
+        continue-on-error: false
+
+  validate-openapi:
+    name: Check OpenAPI Spec Validity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install OpenAPI validator
+        run: npm install -g @apidevtools/swagger-cli
+
+      - name: Validate OpenAPI specification
+        run: |
+          if [ -f "contracts/schemas/api-contract.yml" ]; then
+            echo "Validating OpenAPI contract..."
+            swagger-cli validate contracts/schemas/api-contract.yml
+          else
+            echo "No OpenAPI contract found, skipping validation"
+          fi
+
+      - name: Validate event contract
+        run: |
+          if [ -f "contracts/schemas/event-contract.yml" ]; then
+            echo "Event contract found"
+            # Add custom validation if needed
+          else
+            echo "No event contract found"
+          fi
+
+  summary:
+    name: Contract Validation Summary
+    runs-on: ubuntu-latest
+    needs: [validate-schemas, validate-mock-data, validate-openapi]
+    if: always()
+    steps:
+      - name: Check validation results
+        run: |
+          echo "## Contract Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "✅ All contract validations completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- JSON Schemas: ${{ needs.validate-schemas.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Mock Data: ${{ needs.validate-mock-data.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- OpenAPI Spec: ${{ needs.validate-openapi.result }}" >> $GITHUB_STEP_SUMMARY

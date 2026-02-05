@@ -1,0 +1,451 @@
+openapi: 3.0.3
+info:
+  title: Support Request API
+  description: API for managing support requests, triage, and analytics
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: api-support@example.com
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production server
+  - url: https://staging-api.example.com/v1
+    description: Staging server
+  - url: http://localhost:3000/v1
+    description: Local development server
+
+paths:
+  /requests:
+    get:
+      summary: List support requests
+      description: Retrieve a paginated list of support requests with optional filtering
+      operationId: listRequests
+      tags:
+        - Requests
+      parameters:
+        - name: status
+          in: query
+          description: Filter by status
+          schema:
+            type: string
+            enum: [new, triaged, in_progress, waiting, resolved, closed]
+        - name: priority
+          in: query
+          description: Filter by priority
+          schema:
+            type: string
+            enum: [P0, P1, P2, P3]
+        - name: category
+          in: query
+          description: Filter by category
+          schema:
+            type: string
+            enum: [technical, account, billing, general]
+        - name: assigned_to
+          in: query
+          description: Filter by assigned agent ID
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number (1-indexed)
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of results per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Request'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Create a new support request
+      description: Submit a new support request
+      operationId: createRequest
+      tags:
+        - Requests
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestCreate'
+      responses:
+        '201':
+          description: Request created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /requests/{id}:
+    get:
+      summary: Get a specific request
+      description: Retrieve details of a single support request by ID
+      operationId: getRequest
+      tags:
+        - Requests
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Request ID (e.g., REQ-000001)
+          schema:
+            type: string
+            pattern: '^REQ-[0-9]{6}$'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    patch:
+      summary: Update a request
+      description: Update specific fields of a support request
+      operationId: updateRequest
+      tags:
+        - Requests
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Request ID (e.g., REQ-000001)
+          schema:
+            type: string
+            pattern: '^REQ-[0-9]{6}$'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestUpdate'
+      responses:
+        '200':
+          description: Request updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /requests/triage:
+    get:
+      summary: Get requests requiring triage
+      description: Retrieve requests in 'new' status that need agent assignment
+      operationId: getTriageQueue
+      tags:
+        - Triage
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of requests to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Request'
+                  count:
+                    type: integer
+                    description: Total number of requests in triage queue
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /analytics/metrics:
+    get:
+      summary: Get analytics metrics
+      description: Retrieve aggregated metrics for support requests
+      operationId: getMetrics
+      tags:
+        - Analytics
+      parameters:
+        - name: start_date
+          in: query
+          description: Start date for metrics (ISO 8601)
+          schema:
+            type: string
+            format: date-time
+        - name: end_date
+          in: query
+          description: End date for metrics (ISO 8601)
+          schema:
+            type: string
+            format: date-time
+        - name: group_by
+          in: query
+          description: Group metrics by dimension
+          schema:
+            type: string
+            enum: [priority, category, status, channel]
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metrics'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  schemas:
+    Request:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - category
+        - priority
+        - status
+        - requester_type
+        - channel
+        - created_at
+      properties:
+        id:
+          type: string
+          pattern: '^REQ-[0-9]{6}$'
+          example: REQ-000001
+        title:
+          type: string
+          minLength: 5
+          maxLength: 200
+          example: Unable to login to account
+        description:
+          type: string
+          minLength: 10
+          maxLength: 5000
+          example: I've been trying to log in for the past hour...
+        category:
+          type: string
+          enum: [technical, account, billing, general]
+        priority:
+          type: string
+          enum: [P0, P1, P2, P3]
+        status:
+          type: string
+          enum: [new, triaged, in_progress, waiting, resolved, closed]
+        requester_type:
+          type: string
+          enum: [free, paid, enterprise, internal]
+        channel:
+          type: string
+          enum: [email, chat, phone, web_form, api]
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        assigned_to:
+          type: string
+          nullable: true
+        resolution_code:
+          type: string
+          enum: [solved, workaround, duplicate, wont_fix, spam]
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+
+    RequestCreate:
+      type: object
+      required:
+        - title
+        - description
+        - category
+        - requester_type
+        - channel
+      properties:
+        title:
+          type: string
+          minLength: 5
+          maxLength: 200
+        description:
+          type: string
+          minLength: 10
+          maxLength: 5000
+        category:
+          type: string
+          enum: [technical, account, billing, general]
+        requester_type:
+          type: string
+          enum: [free, paid, enterprise, internal]
+        channel:
+          type: string
+          enum: [email, chat, phone, web_form, api]
+        tags:
+          type: array
+          items:
+            type: string
+
+    RequestUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 5
+          maxLength: 200
+        description:
+          type: string
+          minLength: 10
+          maxLength: 5000
+        priority:
+          type: string
+          enum: [P0, P1, P2, P3]
+        status:
+          type: string
+          enum: [new, triaged, in_progress, waiting, resolved, closed]
+        assigned_to:
+          type: string
+          nullable: true
+        resolution_code:
+          type: string
+          enum: [solved, workaround, duplicate, wont_fix, spam]
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 20
+        total:
+          type: integer
+          example: 150
+        total_pages:
+          type: integer
+          example: 8
+
+    Metrics:
+      type: object
+      properties:
+        period:
+          type: object
+          properties:
+            start:
+              type: string
+              format: date-time
+            end:
+              type: string
+              format: date-time
+        total_requests:
+          type: integer
+        by_priority:
+          type: object
+          additionalProperties:
+            type: integer
+        by_category:
+          type: object
+          additionalProperties:
+            type: integer
+        by_status:
+          type: object
+          additionalProperties:
+            type: integer
+        avg_resolution_time_hours:
+          type: number
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: Invalid request parameters
+        details:
+          type: array
+          items:
+            type: string
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

@@ -1,0 +1,49 @@
+%% Submit Request User Flow (US-01)
+%% Reference: contracts/user-stories/US-01-submit-request.md
+%% TODO: Refine this flow based on specific form fields and validation logic
+
+graph TD
+    Start([Requester navigates to system]) --> CheckAuth{User authenticated?}
+    
+    CheckAuth -->|No| Login[Redirect to login]
+    Login --> Start
+    
+    CheckAuth -->|Yes| FormView[Display request form]
+    
+    FormView --> FillTitle[Enter request title]
+    FillTitle --> FillDesc[Enter description]
+    FillDesc --> SelectCat[Select category]
+    SelectCat --> SetPriority[Set suggested priority]
+    
+    SetPriority --> Review[Review form]
+    Review --> ValidateForm{Form valid?}
+    
+    ValidateForm -->|No| ShowErrors[Show validation errors]
+    ShowErrors --> FormView
+    
+    ValidateForm -->|Yes| Submit[Click Submit]
+    Submit --> CreateRequest[Create request in database]
+    
+    CreateRequest --> SendNotif[Send notification to agents]
+    SendNotif --> Confirm[Show confirmation message]
+    Confirm --> ViewDetails{View details?}
+    
+    ViewDetails -->|Yes| DetailPage[Navigate to request detail page]
+    ViewDetails -->|No| ThankYou[Show thank you message]
+    
+    DetailPage --> End([End])
+    ThankYou --> End
+    
+    %% Styling
+    classDef userAction fill:#e1f5ff,stroke:#01579b,stroke-width:2px
+    classDef systemAction fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef decision fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    
+    class FillTitle,FillDesc,SelectCat,SetPriority,Review,Submit userAction
+    class CreateRequest,SendNotif,Confirm,DetailPage,ThankYou systemAction
+    class CheckAuth,ValidateForm,ViewDetails decision
+    
+    %% Notes for implementation
+    %% - Form fields reference: contracts/schemas/request.schema.json
+    %% - Validation rules: contracts/data-models/business-rules.md
+    %% - Priority definitions: contracts/data-models/priority-definitions.md

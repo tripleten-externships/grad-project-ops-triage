@@ -1,0 +1,375 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/webhook-events.schema.json",
+  "title": "Webhook Event Payloads",
+  "description": "Schema for all webhook event payloads sent to external systems",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/RequestCreatedEvent"
+    },
+    {
+      "$ref": "#/definitions/RequestUpdatedEvent"
+    },
+    {
+      "$ref": "#/definitions/RequestAssignedEvent"
+    },
+    {
+      "$ref": "#/definitions/RequestStatusChangedEvent"
+    },
+    {
+      "$ref": "#/definitions/RequestResolvedEvent"
+    },
+    {
+      "$ref": "#/definitions/SLABreachEvent"
+    }
+  ],
+  "definitions": {
+    "BaseEvent": {
+      "type": "object",
+      "required": ["event_id", "event_type", "timestamp", "version"],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for this event",
+          "examples": ["550e8400-e29b-41d4-a716-446655440000"]
+        },
+        "event_type": {
+          "type": "string",
+          "description": "Type of event",
+          "examples": ["request.created"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the event occurred",
+          "examples": ["2026-02-04T14:30:00Z"]
+        },
+        "version": {
+          "type": "string",
+          "description": "Event schema version",
+          "pattern": "^v[0-9]+$",
+          "default": "v1",
+          "examples": ["v1"]
+        }
+      }
+    },
+    "RequestCreatedEvent": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseEvent"
+        },
+        {
+          "type": "object",
+          "required": ["data"],
+          "properties": {
+            "event_type": {
+              "const": "request.created"
+            },
+            "data": {
+              "type": "object",
+              "required": ["request"],
+              "properties": {
+                "request": {
+                  "$ref": "#/definitions/Request"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "RequestUpdatedEvent": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseEvent"
+        },
+        {
+          "type": "object",
+          "required": ["data"],
+          "properties": {
+            "event_type": {
+              "const": "request.updated"
+            },
+            "data": {
+              "type": "object",
+              "required": ["request", "changed_fields"],
+              "properties": {
+                "request": {
+                  "$ref": "#/definitions/Request"
+                },
+                "changed_fields": {
+                  "type": "array",
+                  "description": "Fields that were updated",
+                  "items": {
+                    "type": "string"
+                  },
+                  "examples": [["status", "priority"]]
+                },
+                "previous_values": {
+                  "type": "object",
+                  "description": "Previous values of changed fields",
+                  "additionalProperties": true
+                },
+                "updated_by": {
+                  "type": "string",
+                  "description": "User who made the update",
+                  "examples": ["agent-001"]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "RequestAssignedEvent": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseEvent"
+        },
+        {
+          "type": "object",
+          "required": ["data"],
+          "properties": {
+            "event_type": {
+              "const": "request.assigned"
+            },
+            "data": {
+              "type": "object",
+              "required": ["request_id", "assigned_to"],
+              "properties": {
+                "request_id": {
+                  "type": "string",
+                  "pattern": "^REQ-[0-9]{6}$"
+                },
+                "assigned_to": {
+                  "type": "string",
+                  "pattern": "^agent-[0-9]{3,6}$",
+                  "description": "Agent who was assigned"
+                },
+                "assigned_by": {
+                  "type": "string",
+                  "description": "User who performed the assignment",
+                  "examples": ["manager-001", "system"]
+                },
+                "previous_assignee": {
+                  "type": ["string", "null"],
+                  "description": "Previous agent if reassigned"
+                },
+                "assignment_method": {
+                  "type": "string",
+                  "enum": ["manual", "auto", "round_robin", "ml_recommended"],
+                  "description": "How assignment was made"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "RequestStatusChangedEvent": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseEvent"
+        },
+        {
+          "type": "object",
+          "required": ["data"],
+          "properties": {
+            "event_type": {
+              "const": "request.status_changed"
+            },
+            "data": {
+              "type": "object",
+              "required": ["request_id", "from_status", "to_status"],
+              "properties": {
+                "request_id": {
+                  "type": "string",
+                  "pattern": "^REQ-[0-9]{6}$"
+                },
+                "from_status": {
+                  "type": "string",
+                  "enum": ["new", "triaged", "in_progress", "waiting", "resolved", "closed"]
+                },
+                "to_status": {
+                  "type": "string",
+                  "enum": ["new", "triaged", "in_progress", "waiting", "resolved", "closed"]
+                },
+                "changed_by": {
+                  "type": "string",
+                  "description": "User who changed the status",
+                  "examples": ["agent-001", "system"]
+                },
+                "reason": {
+                  "type": "string",
+                  "description": "Optional reason for status change",
+                  "maxLength": 500
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "RequestResolvedEvent": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseEvent"
+        },
+        {
+          "type": "object",
+          "required": ["data"],
+          "properties": {
+            "event_type": {
+              "const": "request.resolved"
+            },
+            "data": {
+              "type": "object",
+              "required": ["request_id", "resolution_code"],
+              "properties": {
+                "request_id": {
+                  "type": "string",
+                  "pattern": "^REQ-[0-9]{6}$"
+                },
+                "resolution_code": {
+                  "type": "string",
+                  "enum": ["solved", "workaround", "duplicate", "wont_fix", "spam"]
+                },
+                "resolved_by": {
+                  "type": "string",
+                  "description": "Agent who resolved the request"
+                },
+                "resolution_time_hours": {
+                  "type": "number",
+                  "description": "Time from creation to resolution in hours"
+                },
+                "sla_met": {
+                  "type": "boolean",
+                  "description": "Whether SLA was met"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "SLABreachEvent": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseEvent"
+        },
+        {
+          "type": "object",
+          "required": ["data"],
+          "properties": {
+            "event_type": {
+              "const": "request.sla_breach"
+            },
+            "data": {
+              "type": "object",
+              "required": ["request_id", "breach_type", "sla_target_hours"],
+              "properties": {
+                "request_id": {
+                  "type": "string",
+                  "pattern": "^REQ-[0-9]{6}$"
+                },
+                "breach_type": {
+                  "type": "string",
+                  "enum": ["first_response", "resolution"],
+                  "description": "Type of SLA that was breached"
+                },
+                "sla_target_hours": {
+                  "type": "number",
+                  "description": "Target SLA in hours"
+                },
+                "actual_hours": {
+                  "type": "number",
+                  "description": "Actual time elapsed in hours"
+                },
+                "breach_percentage": {
+                  "type": "number",
+                  "description": "How much over SLA (percentage)"
+                },
+                "priority": {
+                  "type": "string",
+                  "enum": ["P0", "P1", "P2", "P3"]
+                },
+                "assigned_to": {
+                  "type": ["string", "null"],
+                  "description": "Current assignee if any"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Request": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "description",
+        "category",
+        "priority",
+        "status",
+        "requester_type",
+        "channel",
+        "created_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^REQ-[0-9]{6}$"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["technical", "account", "billing", "general"]
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["P0", "P1", "P2", "P3"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["new", "triaged", "in_progress", "waiting", "resolved", "closed"]
+        },
+        "requester_type": {
+          "type": "string",
+          "enum": ["free", "paid", "enterprise", "internal"]
+        },
+        "channel": {
+          "type": "string",
+          "enum": ["email", "chat", "phone", "web_form", "api"]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "assigned_to": {
+          "type": ["string", "null"]
+        },
+        "resolution_code": {
+          "type": ["string", "null"],
+          "enum": ["solved", "workaround", "duplicate", "wont_fix", "spam", null]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "@request-mgmt/qa",
+  "version": "1.0.0",
+  "description": "QA testing package for Request Management System",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "test:codegen": "playwright codegen http://localhost:5173"
+  },
+  "keywords": [
+    "qa",
+    "testing",
+    "e2e",
+    "playwright"
+  ],
+  "author": "QA Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@axe-core/playwright": "^4.8.0",
+    "playwright": "^1.40.0"
+  }
+}

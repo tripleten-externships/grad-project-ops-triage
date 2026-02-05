@@ -1,0 +1,337 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/ds-model-output.schema.json",
+  "title": "Data Science Model Output",
+  "description": "Expected schema for predictions from the Data Science triage model",
+  "type": "object",
+  "required": [
+    "request_id",
+    "model_version",
+    "timestamp",
+    "predictions"
+  ],
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "pattern": "^REQ-[0-9]{6}$",
+      "description": "ID of the request being analyzed",
+      "examples": ["REQ-000123"]
+    },
+    "model_version": {
+      "type": "string",
+      "description": "Version of the model that generated this prediction",
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["v1.2.3", "v2.0.0"]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the prediction was generated",
+      "examples": ["2026-02-04T14:30:00Z"]
+    },
+    "predictions": {
+      "type": "object",
+      "description": "Model predictions for various attributes",
+      "required": ["priority", "category"],
+      "properties": {
+        "priority": {
+          "type": "object",
+          "description": "Predicted priority with confidence scores",
+          "required": ["predicted_value", "confidence", "probabilities"],
+          "properties": {
+            "predicted_value": {
+              "type": "string",
+              "enum": ["P0", "P1", "P2", "P3"],
+              "description": "Most likely priority level",
+              "examples": ["P1"]
+            },
+            "confidence": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Confidence score for the prediction (0-1)",
+              "examples": [0.85]
+            },
+            "probabilities": {
+              "type": "object",
+              "description": "Probability distribution across all priority levels",
+              "required": ["P0", "P1", "P2", "P3"],
+              "properties": {
+                "P0": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "examples": [0.05]
+                },
+                "P1": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "examples": [0.85]
+                },
+                "P2": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "examples": [0.08]
+                },
+                "P3": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "examples": [0.02]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "category": {
+          "type": "object",
+          "description": "Predicted category with confidence scores",
+          "required": ["predicted_value", "confidence", "probabilities"],
+          "properties": {
+            "predicted_value": {
+              "type": "string",
+              "enum": ["technical", "account", "billing", "general"],
+              "description": "Most likely category",
+              "examples": ["technical"]
+            },
+            "confidence": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Confidence score for the prediction (0-1)",
+              "examples": [0.92]
+            },
+            "probabilities": {
+              "type": "object",
+              "description": "Probability distribution across all categories",
+              "required": ["technical", "account", "billing", "general"],
+              "properties": {
+                "technical": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "examples": [0.92]
+                },
+                "account": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "examples": [0.03]
+                },
+                "billing": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "examples": [0.03]
+                },
+                "general": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "examples": [0.02]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "recommended_agent": {
+          "type": "object",
+          "description": "Recommended agent assignment (optional)",
+          "properties": {
+            "agent_id": {
+              "type": "string",
+              "description": "ID of the recommended agent",
+              "pattern": "^agent-[0-9]{3,6}$",
+              "examples": ["agent-042"]
+            },
+            "confidence": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Confidence in this agent recommendation",
+              "examples": [0.78]
+            },
+            "reasoning": {
+              "type": "string",
+              "description": "Explanation for the recommendation",
+              "maxLength": 500,
+              "examples": ["Agent has 95% success rate with similar technical issues"]
+            }
+          }
+        },
+        "estimated_resolution_time_hours": {
+          "type": "object",
+          "description": "Estimated time to resolve (optional)",
+          "properties": {
+            "predicted_value": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Predicted resolution time in hours",
+              "examples": [4.5]
+            },
+            "confidence_interval": {
+              "type": "object",
+              "description": "95% confidence interval",
+              "properties": {
+                "lower": {
+                  "type": "number",
+                  "minimum": 0,
+                  "examples": [2.5]
+                },
+                "upper": {
+                  "type": "number",
+                  "minimum": 0,
+                  "examples": [8.0]
+                }
+              }
+            }
+          }
+        },
+        "duplicate_likelihood": {
+          "type": "object",
+          "description": "Likelihood this is a duplicate request (optional)",
+          "properties": {
+            "is_duplicate": {
+              "type": "boolean",
+              "description": "Whether this appears to be a duplicate",
+              "examples": [false]
+            },
+            "confidence": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Confidence in duplicate detection",
+              "examples": [0.95]
+            },
+            "similar_requests": {
+              "type": "array",
+              "description": "IDs of potentially similar requests",
+              "items": {
+                "type": "string",
+                "pattern": "^REQ-[0-9]{6}$"
+              },
+              "maxItems": 5,
+              "examples": [["REQ-000120", "REQ-000115"]]
+            }
+          }
+        },
+        "sentiment": {
+          "type": "object",
+          "description": "Sentiment analysis of the request (optional)",
+          "properties": {
+            "score": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1,
+              "description": "Sentiment score (-1=negative, 0=neutral, 1=positive)",
+              "examples": [-0.3]
+            },
+            "label": {
+              "type": "string",
+              "enum": ["positive", "neutral", "negative"],
+              "examples": ["negative"]
+            },
+            "urgency_indicators": {
+              "type": "array",
+              "description": "Words/phrases indicating urgency",
+              "items": {
+                "type": "string"
+              },
+              "examples": [["urgent", "ASAP", "critical"]]
+            }
+          }
+        },
+        "suggested_tags": {
+          "type": "array",
+          "description": "AI-suggested tags for the request (optional)",
+          "items": {
+            "type": "object",
+            "required": ["tag", "confidence"],
+            "properties": {
+              "tag": {
+                "type": "string",
+                "examples": ["login"]
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "examples": [0.88]
+              }
+            }
+          },
+          "maxItems": 10
+        }
+      },
+      "additionalProperties": false
+    },
+    "features": {
+      "type": "object",
+      "description": "Features extracted from the request (for debugging/analysis)",
+      "properties": {
+        "text_length": {
+          "type": "integer",
+          "description": "Combined length of title and description",
+          "examples": [245]
+        },
+        "word_count": {
+          "type": "integer",
+          "description": "Total word count",
+          "examples": [42]
+        },
+        "has_error_message": {
+          "type": "boolean",
+          "description": "Whether request contains error messages",
+          "examples": [true]
+        },
+        "has_code_snippets": {
+          "type": "boolean",
+          "description": "Whether request contains code",
+          "examples": [false]
+        },
+        "question_count": {
+          "type": "integer",
+          "description": "Number of questions in the text",
+          "examples": [2]
+        },
+        "urgency_keywords": {
+          "type": "array",
+          "description": "Urgency keywords found",
+          "items": {
+            "type": "string"
+          },
+          "examples": [["asap", "urgent"]]
+        }
+      }
+    },
+    "model_metadata": {
+      "type": "object",
+      "description": "Metadata about model execution",
+      "properties": {
+        "inference_time_ms": {
+          "type": "number",
+          "description": "Time taken to generate prediction in milliseconds",
+          "examples": [45.2]
+        },
+        "model_name": {
+          "type": "string",
+          "description": "Name of the model",
+          "examples": ["triage-classifier-v2"]
+        },
+        "training_date": {
+          "type": "string",
+          "format": "date",
+          "description": "When the model was last trained",
+          "examples": ["2026-01-15"]
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

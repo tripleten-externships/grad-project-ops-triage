@@ -1,0 +1,180 @@
+### Request Management System - API Tests
+### Use with VS Code REST Client extension
+### https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+@baseUrl = http://localhost:3000
+@apiKey = your-api-key-here
+@requestId = replace-with-actual-id
+
+### Variables
+# Update these after creating test data
+@testRequesterId = user-123
+@testAgentId = agent-456
+
+###############################################################################
+# Authentication (if implemented)
+###############################################################################
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "requester@test.com",
+  "password": "Test123!"
+}
+
+###############################################################################
+# Requests API
+###############################################################################
+
+### Get all requests
+GET {{baseUrl}}/api/requests
+Authorization: Bearer {{apiKey}}
+
+### Get single request by ID
+GET {{baseUrl}}/api/requests/{{requestId}}
+Authorization: Bearer {{apiKey}}
+
+### Create new request (US-01)
+POST {{baseUrl}}/api/requests
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "title": "API Test - Password reset needed",
+  "description": "Testing API request creation",
+  "category": "IT Support",
+  "priority": "P2",
+  "requestedBy": "{{testRequesterId}}"
+}
+
+### Create request - Missing required field (should fail)
+POST {{baseUrl}}/api/requests
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "title": "Missing description",
+  "category": "IT Support",
+  "priority": "P2"
+}
+
+### Create request - Invalid category (should fail)
+POST {{baseUrl}}/api/requests
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "title": "Invalid category test",
+  "description": "Testing validation",
+  "category": "InvalidCategory",
+  "priority": "P2"
+}
+
+### Update request (PATCH)
+PATCH {{baseUrl}}/api/requests/{{requestId}}
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "title": "Updated title"
+}
+
+### Triage request (US-02)
+PATCH {{baseUrl}}/api/requests/{{requestId}}/triage
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "category": "IT Support",
+  "priority": "P1",
+  "assignedTo": "{{testAgentId}}",
+  "notes": "Assigned to agent for resolution"
+}
+
+### Delete request (if implemented)
+DELETE {{baseUrl}}/api/requests/{{requestId}}
+Authorization: Bearer {{apiKey}}
+
+###############################################################################
+# Analytics API (US-03)
+###############################################################################
+
+### Get analytics summary
+GET {{baseUrl}}/api/analytics
+Authorization: Bearer {{apiKey}}
+
+### Get analytics by date range
+GET {{baseUrl}}/api/analytics?startDate=2026-01-01&endDate=2026-01-31
+Authorization: Bearer {{apiKey}}
+
+### Get analytics by category
+GET {{baseUrl}}/api/analytics/category
+Authorization: Bearer {{apiKey}}
+
+###############################################################################
+# AI Automation Integration
+###############################################################################
+
+### Get AI suggestion for request
+GET {{baseUrl}}/api/requests/{{requestId}}/ai-suggestion
+Authorization: Bearer {{apiKey}}
+
+###############################################################################
+# Error Handling Tests
+###############################################################################
+
+### Unauthorized access (no token)
+GET {{baseUrl}}/api/requests
+
+### Invalid request ID (404)
+GET {{baseUrl}}/api/requests/invalid-id-12345
+Authorization: Bearer {{apiKey}}
+
+### Malformed JSON (400)
+POST {{baseUrl}}/api/requests
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "title": "Malformed
+  // Missing closing brace
+}
+
+###############################################################################
+# Test Scenarios
+###############################################################################
+
+### Scenario: Complete request lifecycle
+# 1. Create request
+POST {{baseUrl}}/api/requests
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "title": "Lifecycle test request",
+  "description": "Testing complete flow",
+  "category": "IT Support",
+  "priority": "P2",
+  "requestedBy": "{{testRequesterId}}"
+}
+
+# 2. Get the created request (use ID from response above)
+# GET {{baseUrl}}/api/requests/{id}
+
+# 3. Triage the request
+# PATCH {{baseUrl}}/api/requests/{id}/triage
+
+# 4. Mark as resolved
+# PATCH {{baseUrl}}/api/requests/{id}
+# { "status": "resolved" }
+
+###############################################################################
+# Notes for QA Team:
+# - Replace {{baseUrl}} with actual API URL
+# - Update {{apiKey}} with valid authentication token
+# - Update {{requestId}} and other IDs with actual test data
+# - Add assertions using REST Client test syntax if needed
+# - Consider automating these with Postman/Newman for CI/CD
+###############################################################################

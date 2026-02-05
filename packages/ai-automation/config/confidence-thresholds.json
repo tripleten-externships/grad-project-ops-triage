@@ -1,0 +1,116 @@
+{
+  "description": "Confidence threshold configuration for AI automation",
+  "version": "1.0.0",
+  
+  "thresholds": {
+    "category": {
+      "high_confidence": 0.8,
+      "medium_confidence": 0.6,
+      "low_confidence": 0.4,
+      "default_threshold": 0.6
+    },
+    "priority": {
+      "high_confidence": 0.8,
+      "medium_confidence": 0.6,
+      "low_confidence": 0.4,
+      "default_threshold": 0.6
+    }
+  },
+  
+  "actions_by_confidence": {
+    "high": {
+      "auto_apply": true,
+      "manual_review_required": false,
+      "show_to_agent": true
+    },
+    "medium": {
+      "auto_apply": false,
+      "manual_review_required": false,
+      "show_to_agent": true
+    },
+    "low": {
+      "auto_apply": false,
+      "manual_review_required": true,
+      "show_to_agent": true
+    }
+  },
+  
+  "category_specific_thresholds": {
+    "IT Support": {
+      "category_threshold": 0.7,
+      "priority_threshold": 0.6,
+      "rationale": "IT Support is most common category, slightly higher bar"
+    },
+    "HR": {
+      "category_threshold": 0.8,
+      "priority_threshold": 0.7,
+      "rationale": "HR requests often sensitive, require higher confidence"
+    },
+    "Facilities": {
+      "category_threshold": 0.6,
+      "priority_threshold": 0.5,
+      "rationale": "Facilities requests straightforward, can accept lower confidence"
+    },
+    "Finance": {
+      "category_threshold": 0.75,
+      "priority_threshold": 0.7,
+      "rationale": "Finance requires accuracy, higher threshold"
+    },
+    "Other": {
+      "category_threshold": 0.5,
+      "priority_threshold": 0.5,
+      "rationale": "Catch-all category, lower bar acceptable"
+    }
+  },
+  
+  "priority_specific_thresholds": {
+    "P0": {
+      "minimum_confidence": 0.9,
+      "require_manual_approval": true,
+      "rationale": "Critical priority requires very high confidence and human review"
+    },
+    "P1": {
+      "minimum_confidence": 0.7,
+      "require_manual_approval": false,
+      "rationale": "High priority needs good confidence"
+    },
+    "P2": {
+      "minimum_confidence": 0.6,
+      "require_manual_approval": false,
+      "rationale": "Medium priority standard threshold"
+    },
+    "P3": {
+      "minimum_confidence": 0.5,
+      "require_manual_approval": false,
+      "rationale": "Low priority can accept lower confidence"
+    }
+  },
+  
+  "fallback_behavior": {
+    "on_low_confidence": {
+      "action": "flag_for_review",
+      "default_category": "Other",
+      "default_priority": "P2"
+    },
+    "on_api_failure": {
+      "action": "try_ds_model_fallback",
+      "if_ds_fails": "manual_triage"
+    }
+  },
+  
+  "calibration": {
+    "enabled": true,
+    "method": "isotonic_regression",
+    "update_frequency": "weekly",
+    "historical_window_days": 30,
+    "rationale": "Adjust confidence scores based on actual accuracy"
+  },
+  
+  "notes": [
+    "Thresholds should be tuned based on accuracy metrics",
+    "Higher thresholds = fewer auto-suggestions but higher accuracy",
+    "Lower thresholds = more coverage but may include incorrect suggestions",
+    "Monitor override rate: if agents frequently change suggestions, raise thresholds",
+    "Different workflows may warrant different thresholds"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "ops-triage-grad-project",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Multi-discipline bootcamp graduation project template for Ops Triage",
+  "packageManager": "pnpm@10.28.1",
+  "workspaces": [
+    "packages/*",
+    "contracts"
+  ],
+  "scripts": {
+    "setup": "./scripts/setup.sh",
+    "validate:contracts": "./scripts/validate-contracts.sh",
+    "seed:data": "./scripts/seed-data.sh",
+    "build": "pnpm -r --filter='./packages/*' build",
+    "test": "pnpm -r --filter='./packages/*' test",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "check:deliverables": "./scripts/check-deliverables.sh",
+    "dev": "pnpm -r --parallel --filter='./packages/*' dev"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3",
+    "prettier": "^3.2.4",
+    "eslint": "^8.56.0",
+    "ajv": "^8.12.0"
+  },
+  "keywords": [
+    "bootcamp",
+    "monorepo",
+    "graduation-project",
+    "ops-triage"
+  ],
+  "author": "",
+  "license": "MIT"
+}

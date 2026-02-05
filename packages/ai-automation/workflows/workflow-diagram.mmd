@@ -1,0 +1,58 @@
+%% Request Triage Automation Workflow Diagram
+%% Visualizes the AI automation decision flow
+
+graph TD
+    Start([New Request Created]) --> Webhook[Backend sends webhook]
+    Webhook --> Validate{Validate Input}
+    
+    Validate -->|Invalid| Error1[Return Error]
+    Validate -->|Valid| ScanPII[Scan for PII/Sensitive Content]
+    
+    ScanPII -->|Flagged| FlagReview1[Flag for Manual Review]
+    ScanPII -->|Clean| TryDS{DS Model Available?}
+    
+    TryDS -->|Yes| CallDS[Call DS Model API]
+    TryDS -->|No| CallLLM[Call LLM API]
+    
+    CallDS -->|Success| CheckConf{Confidence >= 0.7?}
+    CallDS -->|Fail| CallLLM
+    
+    CheckConf -->|Yes| UseDSResult[Use DS Prediction]
+    CheckConf -->|No| CallLLM
+    
+    CallLLM --> ParseLLM[Parse LLM Response]
+    ParseLLM --> ValidateLLM{Valid Output?}
+    
+    ValidateLLM -->|No| UseDefaults[Use Default Values]
+    ValidateLLM -->|Yes| Summarize[Generate Summary LLM]
+    
+    Summarize --> Guardrails{Apply Guardrails}
+    UseDSResult --> Guardrails
+    UseDefaults --> Guardrails
+    
+    Guardrails -->|P0 Priority| FlagReview2[Require Manual Approval]
+    Guardrails -->|Low Confidence| FlagReview3[Mark Needs Review]
+    Guardrails -->|Pass| LogPrediction[Log to Database]
+    
+    FlagReview1 --> LogPrediction
+    FlagReview2 --> LogPrediction
+    FlagReview3 --> LogPrediction
+    
+    LogPrediction --> BuildResponse[Build JSON Response]
+    BuildResponse --> ReturnToBackend[Return to Backend]
+    ReturnToBackend --> End([End])
+    
+    Error1 --> End
+    
+    %% Styling
+    classDef inputNode fill:#e3f2fd,stroke:#01579b,stroke-width:2px
+    classDef processNode fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef decisionNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef aiNode fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    classDef alertNode fill:#ffebee,stroke:#c62828,stroke-width:2px
+    
+    class Start,Webhook,End inputNode
+    class Validate,ScanPII,ParseLLM,Summarize,LogPrediction,BuildResponse,ReturnToBackend processNode
+    class TryDS,CheckConf,ValidateLLM,Guardrails decisionNode
+    class CallDS,CallLLM aiNode
+    class FlagReview1,FlagReview2,FlagReview3,Error1 alertNode

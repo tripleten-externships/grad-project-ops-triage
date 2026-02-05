@@ -1,0 +1,67 @@
+%% Agent Triage User Flow (US-02)
+%% Reference: contracts/user-stories/US-02-agent-triage.md
+%% TODO: Refine based on automation integration points
+
+graph TD
+    Start([Agent opens triage dashboard]) --> CheckAuth{Agent authenticated?}
+    
+    CheckAuth -->|No| Login[Redirect to login]
+    Login --> Start
+    
+    CheckAuth -->|Yes| LoadQueue[Load pending requests]
+    LoadQueue --> DisplayQueue[Display request queue]
+    
+    DisplayQueue --> FilterSort{Apply filters/sort?}
+    FilterSort -->|Yes| ApplyFilters[Filter by priority, category, date]
+    ApplyFilters --> DisplayQueue
+    
+    FilterSort -->|No| SelectRequest[Select a request to review]
+    SelectRequest --> ViewDetail[View request details]
+    
+    ViewDetail --> AICheck{AI suggestions available?}
+    AICheck -->|Yes| ShowSuggestion[Show AI category/priority suggestion]
+    AICheck -->|No| ManualReview[Agent reviews manually]
+    
+    ShowSuggestion --> ReviewSuggestion{Accept suggestion?}
+    ReviewSuggestion -->|Yes| UpdateFields[Apply suggested values]
+    ReviewSuggestion -->|No| ManualReview
+    
+    ManualReview --> SetCategory[Set/update category]
+    SetCategory --> SetPriority[Set/update priority]
+    SetPriority --> AssignAgent{Assign to agent?}
+    
+    UpdateFields --> AssignAgent
+    
+    AssignAgent -->|Yes| SelectAgent[Choose agent from list]
+    AssignAgent -->|No| LeaveUnassigned[Leave unassigned for pool]
+    
+    SelectAgent --> AddNotes{Add triage notes?}
+    LeaveUnassigned --> AddNotes
+    
+    AddNotes -->|Yes| EnterNotes[Enter notes/context]
+    AddNotes -->|No| SaveChanges[Save triage updates]
+    
+    EnterNotes --> SaveChanges
+    SaveChanges --> UpdateStatus[Update request status]
+    UpdateStatus --> NotifyRequester[Notify requester of update]
+    
+    NotifyRequester --> MoreRequests{More requests to process?}
+    MoreRequests -->|Yes| DisplayQueue
+    MoreRequests -->|No| End([End])
+    
+    %% Styling
+    classDef userAction fill:#e1f5ff,stroke:#01579b,stroke-width:2px
+    classDef systemAction fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef decision fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef aiAction fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    
+    class SelectRequest,ViewDetail,SetCategory,SetPriority,SelectAgent,EnterNotes userAction
+    class LoadQueue,DisplayQueue,UpdateFields,SaveChanges,UpdateStatus,NotifyRequester systemAction
+    class CheckAuth,FilterSort,AICheck,ReviewSuggestion,AssignAgent,AddNotes,MoreRequests decision
+    class ShowSuggestion aiAction
+    
+    %% Notes for implementation
+    %% - AI integration: contracts/integration-points/ai-automation-input.schema.json
+    %% - Status transitions: contracts/data-models/request-lifecycle.md
+    %% - Priority rules: contracts/data-models/priority-definitions.md
+    %% - Field definitions: contracts/data-models/field-dictionary.md

@@ -1,0 +1,263 @@
+asyncapi: 2.6.0
+info:
+  title: Support Request Events API
+  version: 1.0.0
+  description: |
+    Async event schema for webhook events emitted when support requests 
+    are created, updated, or assigned.
+
+servers:
+  production:
+    url: https://events.example.com
+    protocol: webhook
+    description: Production webhook endpoint
+
+channels:
+  request.created:
+    description: Event published when a new request is created
+    subscribe:
+      summary: Subscribe to request creation events
+      message:
+        $ref: '#/components/messages/RequestCreated'
+
+  request.updated:
+    description: Event published when a request is updated
+    subscribe:
+      summary: Subscribe to request update events
+      message:
+        $ref: '#/components/messages/RequestUpdated'
+
+  request.assigned:
+    description: Event published when a request is assigned to an agent
+    subscribe:
+      summary: Subscribe to request assignment events
+      message:
+        $ref: '#/components/messages/RequestAssigned'
+
+  request.status_changed:
+    description: Event published when request status changes
+    subscribe:
+      summary: Subscribe to status change events
+      message:
+        $ref: '#/components/messages/RequestStatusChanged'
+
+components:
+  messages:
+    RequestCreated:
+      name: request.created
+      title: Request Created Event
+      summary: Emitted when a new support request is created
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - event_id
+          - event_type
+          - timestamp
+          - data
+        properties:
+          event_id:
+            type: string
+            format: uuid
+            description: Unique identifier for this event
+            example: 550e8400-e29b-41d4-a716-446655440000
+          event_type:
+            type: string
+            const: request.created
+          timestamp:
+            type: string
+            format: date-time
+            description: When the event occurred
+            example: 2026-02-04T10:30:00Z
+          data:
+            type: object
+            required:
+              - request
+            properties:
+              request:
+                $ref: '#/components/schemas/Request'
+
+    RequestUpdated:
+      name: request.updated
+      title: Request Updated Event
+      summary: Emitted when a support request is updated
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - event_id
+          - event_type
+          - timestamp
+          - data
+        properties:
+          event_id:
+            type: string
+            format: uuid
+          event_type:
+            type: string
+            const: request.updated
+          timestamp:
+            type: string
+            format: date-time
+          data:
+            type: object
+            required:
+              - request
+              - changed_fields
+            properties:
+              request:
+                $ref: '#/components/schemas/Request'
+              changed_fields:
+                type: array
+                description: List of fields that were changed
+                items:
+                  type: string
+                example: ["status", "assigned_to"]
+              previous_values:
+                type: object
+                description: Previous values of changed fields
+                additionalProperties: true
+
+    RequestAssigned:
+      name: request.assigned
+      title: Request Assigned Event
+      summary: Emitted when a request is assigned to an agent
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - event_id
+          - event_type
+          - timestamp
+          - data
+        properties:
+          event_id:
+            type: string
+            format: uuid
+          event_type:
+            type: string
+            const: request.assigned
+          timestamp:
+            type: string
+            format: date-time
+          data:
+            type: object
+            required:
+              - request_id
+              - assigned_to
+            properties:
+              request_id:
+                type: string
+                pattern: '^REQ-[0-9]{6}$'
+              assigned_to:
+                type: string
+                description: Agent ID who was assigned
+                example: agent-042
+              assigned_by:
+                type: string
+                description: User ID who performed the assignment
+                example: manager-001
+              previous_assignee:
+                type: string
+                nullable: true
+                description: Previous agent ID if reassigned
+
+    RequestStatusChanged:
+      name: request.status_changed
+      title: Request Status Changed Event
+      summary: Emitted when request status transitions
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - event_id
+          - event_type
+          - timestamp
+          - data
+        properties:
+          event_id:
+            type: string
+            format: uuid
+          event_type:
+            type: string
+            const: request.status_changed
+          timestamp:
+            type: string
+            format: date-time
+          data:
+            type: object
+            required:
+              - request_id
+              - from_status
+              - to_status
+            properties:
+              request_id:
+                type: string
+                pattern: '^REQ-[0-9]{6}$'
+              from_status:
+                type: string
+                enum: [new, triaged, in_progress, waiting, resolved, closed]
+              to_status:
+                type: string
+                enum: [new, triaged, in_progress, waiting, resolved, closed]
+              changed_by:
+                type: string
+                description: User ID who changed the status
+              resolution_code:
+                type: string
+                enum: [solved, workaround, duplicate, wont_fix, spam]
+                nullable: true
+
+  schemas:
+    Request:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - category
+        - priority
+        - status
+        - requester_type
+        - channel
+        - created_at
+      properties:
+        id:
+          type: string
+          pattern: '^REQ-[0-9]{6}$'
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+          enum: [technical, account, billing, general]
+        priority:
+          type: string
+          enum: [P0, P1, P2, P3]
+        status:
+          type: string
+          enum: [new, triaged, in_progress, waiting, resolved, closed]
+        requester_type:
+          type: string
+          enum: [free, paid, enterprise, internal]
+        channel:
+          type: string
+          enum: [email, chat, phone, web_form, api]
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        assigned_to:
+          type: string
+          nullable: true
+        resolution_code:
+          type: string
+          enum: [solved, workaround, duplicate, wont_fix, spam]
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string

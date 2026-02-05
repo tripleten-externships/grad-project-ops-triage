@@ -1,0 +1,17 @@
+{
+  "name": "@project/contracts",
+  "version": "1.0.0",
+  "description": "Contract pack - single source of truth for schemas, mock data, and API contracts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate-mock-data": "node mock-data/data-generator.js",
+    "validate-schemas": "echo 'Schema validation not yet implemented'"
+  },
+  "keywords": [
+    "contracts",
+    "schemas",
+    "api-contract",
+    "mock-data"
+  ]
+}

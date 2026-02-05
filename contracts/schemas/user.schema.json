@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/user.schema.json",
+  "title": "User",
+  "description": "Schema for a user object (requester, agent, or manager)",
+  "type": "object",
+  "required": ["id", "name", "email", "role"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the user",
+      "pattern": "^(user|agent|manager)-[0-9]{3,6}$",
+      "examples": ["user-001", "agent-042", "manager-001"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Full name of the user",
+      "minLength": 2,
+      "maxLength": 100,
+      "examples": ["John Doe", "Jane Smith"]
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the user",
+      "examples": ["john.doe@example.com", "jane.smith@company.com"]
+    },
+    "role": {
+      "type": "string",
+      "description": "Role of the user in the system",
+      "enum": ["requester", "agent", "manager"],
+      "examples": ["requester", "agent", "manager"]
+    },
+    "team": {
+      "type": "string",
+      "description": "Team the user belongs to (for agents and managers)",
+      "enum": ["technical", "billing", "account", "general", null],
+      "examples": ["technical", "billing", null]
+    }
+  },
+  "additionalProperties": false
+}
